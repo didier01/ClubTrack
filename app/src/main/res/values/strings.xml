@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Club Track</string>
+    <string name="start_sesion">Iniciar sesión</string>
+    <string name="sesion_user">Usuario</string>
+    <string name="sesion_user_password">Contraseña</string>
+    <string name="sesion_recover_password">Contraseña</string>
+</resources>

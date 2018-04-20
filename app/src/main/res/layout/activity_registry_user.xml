@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.registry.RegistryUserActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_top"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Complete el Formulario"
+                android:textSize="@dimen/text_size" />
+
+            <EditText
+                android:id="@+id/edt_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Nombre y apellido"
+                android:inputType="text"
+                android:paddingLeft="10dp" />
+
+
+            <EditText
+                android:id="@+id/edt_user_dni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Cédula"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
+
+            <EditText
+                android:id="@+id/edt_user_cellphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Celular"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
+            <EditText
+                android:id="@+id/edt_user_telephone1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Teléfono 1"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
+            <EditText
+                android:id="@+id/edt_user_telephone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Teléfono 2"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
+            <EditText
+                android:id="@+id/edt_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_left_edit_text"
+                android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="10dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_top"
+                    android:gravity="center_horizontal"
+                    android:text="Crea un usuario y una contraseña"
+                    android:textSize="@dimen/text_size" />
+
+                <EditText
+                    android:id="@+id/edt_regis_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/margin_left_edit_text"
+                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                    android:layout_marginTop="@dimen/margin_top_edit_text"
+                    android:hint="Usuario"
+                    android:inputType="text"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:id="@+id/edt_regis_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/margin_left_edit_text"
+                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                    android:layout_marginTop="@dimen/margin_top_edit_text"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:id="@+id/edt_regis_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/margin_left_edit_text"
+                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                    android:layout_marginTop="@dimen/margin_top_edit_text"
+                    android:hint="Confirmar contraseña"
+                    android:inputType="textPassword"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_top"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:text="Continuar"
+                android:textSize="@dimen/text_size" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

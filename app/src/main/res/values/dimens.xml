@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_top">14dp</dimen>
+    <dimen name="text_size">18sp</dimen>
+    <dimen name="margin_top_edit_text">5sp</dimen>
+    <dimen name="margin_left_edit_text">18sp</dimen>
+    <dimen name="margin_rigth_edit_text">18sp</dimen>
+
+
+</resources>
