@@ -9,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject{
 
     @Ignore
+
     @PrimaryKey
     private String idUser;
     private String idLocationUser;

@@ -9,10 +9,11 @@ import android.widget.EditText;
 
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnLogin;
+    Button btnLogin, btnRegisUser, btnLosePassword;
     EditText edtUser, edtPassword;
 
 
@@ -24,16 +25,30 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
         edtUser = findViewById(R.id.edt_user);
         edtPassword = findViewById(R.id.edt_password);
+        btnRegisUser = findViewById(R.id.btn_login_regis_user);
+        btnLosePassword = findViewById(R.id.btn_lose_pass);
+
+        btnRegisUser.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
 
 
-        btnLogin.setOnClickListener(login);
     }
 
-    View.OnClickListener login = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(goMenu);
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(goMenu);
+
+                break;
+            case R.id.btn_login_regis_user:
+                Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
+                startActivity(goRegistry);
+                break;
+            case R.id.btn_lose_pass:
+                break;
         }
-    };
+    }
 }

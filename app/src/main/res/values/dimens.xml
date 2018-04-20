@@ -2,10 +2,11 @@
 <resources>
 
     <dimen name="margin_top">14dp</dimen>
-    <dimen name="text_size">18sp</dimen>
-    <dimen name="margin_top_edit_text">5sp</dimen>
-    <dimen name="margin_left_edit_text">18sp</dimen>
-    <dimen name="margin_rigth_edit_text">18sp</dimen>
+    <dimen name="text_size">18dp</dimen>
+    <dimen name="margin_top_edit_text">5dp</dimen>
+    <dimen name="margin_left_edit_text">18dp</dimen>
+    <dimen name="margin_rigth_edit_text">18dp</dimen>
+    <dimen name="margin_sides_button">50dp</dimen>
 
 
 </resources>

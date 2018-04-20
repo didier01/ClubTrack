@@ -41,6 +41,8 @@ public class RegistryUserActivity extends AppCompatActivity {
         edtConfirmPass = findViewById(R.id.edt_regis_confirm_password);
 
         btnNext = findViewById(R.id.btn_next);
+
+        btnNext.setOnClickListener(goNext);
     }
 
     // boton continuar
@@ -57,15 +59,17 @@ public class RegistryUserActivity extends AppCompatActivity {
                 return;
 
             }
-            if (edtUser.getText().toString().equals(user.getUser())) {
+            /*if (edtUser.getText().toString().equals(user.getUser())) {
                 edtUser.setError("El Usuario ya exite");
-            }
+            }*/
             if (edtPassword.getText().toString().equals(edtConfirmPass.getText().toString())) {
                 saveDataUser();
 
 
             } else {
+                edtConfirmPass.getText().clear();
                 edtConfirmPass.setError("la contraseña no es igual");
+
             }
 
             //Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);

@@ -156,8 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_top"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginRight="@dimen/margin_sides_button"
                 android:layout_marginTop="@dimen/margin_top_edit_text"
                 android:text="Continuar"
                 android:textSize="@dimen/text_size" />

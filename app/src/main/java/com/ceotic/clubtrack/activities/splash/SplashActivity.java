@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.ceotic.clubtrack.activities.login.LoginActivity;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
 
@@ -16,6 +17,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        getSupportActionBar().hide();
 
         startAnimation();
     }
@@ -24,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         TimerTask tarea2 = new TimerTask() {
             @Override
             public void run() {
-                Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
+                Intent goMenu = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(goMenu);
             }
         };
