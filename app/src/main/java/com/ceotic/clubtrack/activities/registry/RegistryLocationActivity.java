@@ -32,6 +32,7 @@ public class RegistryLocationActivity extends AppCompatActivity {
                 Toast.makeText(RegistryLocationActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                 startActivity(goMenu);
                 RegistryLocationActivity.this.finish();
+
             }
         });
 
