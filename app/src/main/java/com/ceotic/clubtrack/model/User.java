@@ -9,9 +9,10 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject{
 
     @Ignore
+    private final String TAG = User.class.toString();
 
     @PrimaryKey
-    private String idUser;
+    private String idUser ;
     private String idLocationUser;
 
     private String dniUser;
@@ -26,15 +27,9 @@ public class User extends RealmObject{
 
     // Contructores lleons y vacios
 
-    public User(String idUser, String idLocationUser, String dniUser, String nameUser, String email, String cellphone, String telephone, String telephone2, String user, String password) {
+    public User( String dniUser, String nameUser, String email, String cellphone, String telephone, String telephone2, String user, String password) {
 
-        if(idUser == null){
-            this.idUser = UUID.randomUUID().toString();
-        }else{
-            this.idUser = idUser;
-        }
-
-        this.idLocationUser = idLocationUser;
+        this.idUser = UUID.randomUUID().toString();
         this.dniUser = dniUser;
         this.nameUser = nameUser;
         this.email = email;

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -23,7 +24,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txv_name_product"
+                android:id="@+id/txv_item_name_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,7 +34,7 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/imv_product"
+                android:id="@+id/imv_item_product"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
@@ -47,7 +48,7 @@
 
 
                 <TextView
-                    android:id="@+id/txv_price_product"
+                    android:id="@+id/txv_item_price_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -56,18 +57,37 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/txv_size_product"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="tamaño 30"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/txv_item_size_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="30"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="12sp"
+                        android:layout_marginRight="2sp"/>
+
+                    <TextView
+                        android:id="@+id/txv_item_type_size_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="ml"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
 
                 <TextView
-                    android:id="@+id/txv_description_product"
+                    android:id="@+id/txv_item_description_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -78,15 +98,15 @@
 
                 <Button
 
-                    android:id="@+id/btn_buy_product"
+                    android:id="@+id/btn_item_buy_product"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:layout_weight=".5"
+                    android:background="@color/colorAccent"
                     android:text="Agregar"
-                    android:textColor="@color/colorPrimaryText"
-                    android:background="@color/colorAccent"/>
+                    android:textColor="@color/colorPrimaryText" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

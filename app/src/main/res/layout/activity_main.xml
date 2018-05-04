@@ -7,18 +7,20 @@
     android:orientation="vertical"
     tools:context=".activities.menu.MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lst_main_menu"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_menu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

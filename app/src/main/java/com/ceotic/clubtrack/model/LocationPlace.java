@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class Location extends RealmObject{
+public class LocationPlace extends RealmObject {
 
     @Ignore
     @PrimaryKey
@@ -14,17 +14,18 @@ public class Location extends RealmObject{
     private String address;
     private String urlAddress;
     private int typeAddress;
+    private double latitude;
+    private double longitude;
 
-
-    public Location(String idUser, String idLocation, String address, String urlAddress, int typeAddress) {
-        this.idUser = idUser;
-        this.idLocation = idLocation;
+    public LocationPlace(String address, String urlAddress, int typeAddress, double latitude, double longitude) {
         this.address = address;
         this.urlAddress = urlAddress;
         this.typeAddress = typeAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public Location() {
+    public LocationPlace() {
     }
 
     public String getIdUser() {
@@ -65,5 +66,34 @@ public class Location extends RealmObject{
 
     public void setTypeAddress(int typeAddress) {
         this.typeAddress = typeAddress;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "LocationPlace{" +
+                "idUser='" + idUser + '\'' +
+                ", idLocation='" + idLocation + '\'' +
+                ", address='" + address + '\'' +
+                ", urlAddress='" + urlAddress + '\'' +
+                ", typeAddress=" + typeAddress +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
     }
 }

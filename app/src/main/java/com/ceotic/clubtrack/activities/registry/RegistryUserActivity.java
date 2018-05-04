@@ -1,8 +1,10 @@
 package com.ceotic.clubtrack.activities.registry;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +13,10 @@ import android.widget.Toast;
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.model.User;
 
+import java.util.UUID;
+
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class RegistryUserActivity extends AppCompatActivity {
 
@@ -26,9 +31,6 @@ public class RegistryUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registry_user);
 
         realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
 
         edtName = findViewById(R.id.edt_user_name);
         edtDni = findViewById(R.id.edt_user_dni);
@@ -45,35 +47,89 @@ public class RegistryUserActivity extends AppCompatActivity {
         btnNext.setOnClickListener(goNext);
     }
 
-    // boton continuar
+    // Logica boton continuar
     View.OnClickListener goNext = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            if (edtName.getText().length() == 0 || edtEmail.getText().length() == 0 || edtDni.getText().length() == 0 || edtUser.getText().length() == 0 || edtPassword.getText().length() == 0) {
+            // region variables que obtengo
+            final String email = edtEmail.getEditableText().toString().trim();
+            final String nameUser = edtUser.getEditableText().toString().trim();
+            final String dniUser = edtDni.getEditableText().toString().trim();
+            //endregion
+
+            // region Consultas si exixten los parametros en bd
+            RealmResults<User> findUser = realm.where(User.class)
+                    .equalTo("user",nameUser)
+                    .findAll();
+
+            RealmResults<User> findEmail = realm.where(User.class)
+                    .equalTo("email",email)
+                    .findAll();
+
+            RealmResults<User> findDni = realm.where(User.class)
+                    .equalTo("email",dniUser)
+                    .findAll();
+            //endregion
+
+            //region Condiciones para insertar
+            if (edtName.getText().length() == 0  ) {
                 edtName.setError("Campo requerido");
-                edtEmail.setError("Campo requerido");
-                edtDni.setError("Campo requerido");
-                edtUser.setError("Campo requerido");
-                edtPassword.setError("Campo requerido");
                 return;
 
+            }else if (!edtPassword.getText().toString().equals(edtConfirmPass.getText().toString())) {
+                edtConfirmPass.setError("la contraseña no es igual");
+                if (edtPassword.getText().toString().length() == 0){
+                    edtPassword.setError("Campo requerido");
+                    return;
+                }
+                return;
+
+            } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
+                if (email.length() == 0){
+                    edtEmail.setError("Campo requerido");
+                    return;
+                }
+                Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                Log.d("BADDDDD","el correo no es valido");
+                return;
+            } else if(!findEmail.isEmpty()){
+                edtEmail.setError("Correo ya esta en uso");
+                Toast.makeText(getApplicationContext(), "This mail is already used", Toast.LENGTH_SHORT).show();
+                Log.e("BADDDDD","el correo ya esta en uso");
+                return;
+            } else if(!findUser.isEmpty()) {
+                if (nameUser.length() == 0){
+                    edtUser.setError("Campo requerido");
+                    return;
+                }
+                edtUser.setError("Este nombre no esta disponible");
+                Toast.makeText(getApplicationContext(), "This user Name Already exist", Toast.LENGTH_SHORT).show();
+                Log.d("BADDDDD","el nombre de usuario ya existe");
+                return;
+            } else if (!findDni.isEmpty()){
+                if (dniUser.length() == 0){
+                    edtDni.setError("Campo requerido");
+                    return;
+                }
+                edtDni.setError("Esta cedula ya esta registrada");
+                Toast.makeText(getApplicationContext(), "This Dni is Already used", Toast.LENGTH_SHORT).show();
+                Log.d("BADDDDD","la cedula ya existe");
+                return;
             }
-            /*if (edtUser.getText().toString().equals(user.getUser())) {
-                edtUser.setError("El Usuario ya exite");
-            }*/
-            if (edtPassword.getText().toString().equals(edtConfirmPass.getText().toString())) {
+
+            else{
+
+                Log.d("OOOKKKK","todo OK con el registro");
                 saveDataUser();
 
 
-            } else {
-                edtConfirmPass.getText().clear();
-                edtConfirmPass.setError("la contraseña no es igual");
-
             }
+            //endregion
 
             //Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
             //startActivity(goRegisLocation);
+
 
 
         }
@@ -85,7 +141,8 @@ public class RegistryUserActivity extends AppCompatActivity {
             @Override
             public void execute(Realm bgRealm) {
 
-                user = bgRealm.createObject(User.class);
+                user = bgRealm.createObject(User.class, UUID.randomUUID().toString());
+
                 user.setDniUser(edtDni.getText().toString().trim());
                 user.setNameUser(edtName.getText().toString().trim());
                 user.setCellphone(edtCel.getText().toString().trim());
@@ -101,14 +158,18 @@ public class RegistryUserActivity extends AppCompatActivity {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Toast.makeText(RegistryUserActivity.this, "Sisas parce insertado el perro", Toast.LENGTH_SHORT).show();
-                Log.d("succes", "insertado");
+                RealmResults<User> users = realm.where(User.class).findAll();
+                Toast.makeText(RegistryUserActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                Log.d("succes", "insertado \n" + users);
 
+
+                Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+                startActivity(goRegisLocation);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                Toast.makeText(RegistryUserActivity.this, "nada no se inserto el perro", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistryUserActivity.this, "No se resitro el usuario", Toast.LENGTH_SHORT).show();
                 Log.d("Error", "Noooooo insertadooooooo");
             }
         });

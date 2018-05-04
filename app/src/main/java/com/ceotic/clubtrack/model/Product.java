@@ -1,21 +1,32 @@
 package com.ceotic.clubtrack.model;
 
-public class Product {
+import java.util.UUID;
 
-    private String idPro;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
+public class Product extends RealmObject{
+    @Ignore
+    private final String TAG = User.class.toString();
+
+    @PrimaryKey
+    private String idProduct;
+
     private String idTypeProduct;
 
-    private String idProduct;
+
     private String nameProduct;
-    private String imageProduct;
+    private int imageProduct;
     private String descriptionProduct;
     private int price;
     private int quantity;
-    private int typeQuantity;
+    private String typeQuantity;
     private int points;
 
-    public Product(String idProduct, String nameProduct, String imageProduct, String descriptionProduct, int price, int quantity, int typeQuantity, int points) {
-        this.idProduct = idProduct;
+    public Product(String nameProduct, int imageProduct, String descriptionProduct, int price, int quantity, String typeQuantity, int points) {
+        this.idProduct = UUID.randomUUID().toString();
+        this.idTypeProduct = idTypeProduct;
         this.nameProduct = nameProduct;
         this.imageProduct = imageProduct;
         this.descriptionProduct = descriptionProduct;
@@ -26,6 +37,14 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public String getIdTypeProduct() {
+        return idTypeProduct;
+    }
+
+    public void setIdTypeProduct(String idTypeProduct) {
+        this.idTypeProduct = idTypeProduct;
     }
 
     public String getIdProduct() {
@@ -44,11 +63,11 @@ public class Product {
         this.nameProduct = nameProduct;
     }
 
-    public String getImageProduct() {
+    public int getImageProduct() {
         return imageProduct;
     }
 
-    public void setImageProduct(String imageProduct) {
+    public void setImageProduct(int imageProduct) {
         this.imageProduct = imageProduct;
     }
 
@@ -76,11 +95,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public int getTypeQuantity() {
+    public String getTypeQuantity() {
         return typeQuantity;
     }
 
-    public void setTypeQuantity(int typeQuantity) {
+    public void setTypeQuantity(String typeQuantity) {
         this.typeQuantity = typeQuantity;
     }
 
@@ -90,5 +109,20 @@ public class Product {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "idProduct='" + idProduct + '\'' +
+                ", idTypeProduct='" + idTypeProduct + '\'' +
+                ", nameProduct='" + nameProduct + '\'' +
+                ", imageProduct='" + imageProduct + '\'' +
+                ", descriptionProduct='" + descriptionProduct + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", typeQuantity=" + typeQuantity +
+                ", points=" + points +
+                '}';
     }
 }

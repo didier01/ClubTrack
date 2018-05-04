@@ -7,17 +7,32 @@ import android.os.Bundle;
 import com.ceotic.clubtrack.activities.login.LoginActivity;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.control.AppControl;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashActivity extends AppCompatActivity {
+import io.realm.Realm;
+
+public class SplashActivity extends AppCompatActivity implements AppControl.InitComplete {
+
+    AppControl appControl;
+    Realm realm;
+    private boolean loading = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         getSupportActionBar().hide();
+
+        appControl = AppControl.getInstance();
+        appControl.currentActivity = SplashActivity.class.getSimpleName();
+        realm = Realm.getDefaultInstance();
+
+
+        appControl.init(SplashActivity.this, getApplicationContext());
 
         startAnimation();
     }
@@ -34,5 +49,12 @@ public class SplashActivity extends AppCompatActivity {
 
         Timer timer = new Timer();
         timer.schedule(tarea2, 3000);
+
+
+    }
+
+    @Override
+    public void initComplete(boolean result) {
+        loading = result;
     }
 }

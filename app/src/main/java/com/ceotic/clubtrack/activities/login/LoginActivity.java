@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ceotic.clubtrack.activities.registry.MapsActivity;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
 import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
+import com.ceotic.clubtrack.activities.shop.ShopActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnLogin, btnRegisUser, btnLosePassword;
     EditText edtUser, edtPassword;
-
+    TextView txvRecoverPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +32,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtPassword = findViewById(R.id.edt_password);
         btnRegisUser = findViewById(R.id.btn_login_regis_user);
         btnLosePassword = findViewById(R.id.btn_lose_pass);
+        txvRecoverPass = findViewById(R.id.txv_lose_pass);
 
         btnRegisUser.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
+        txvRecoverPass.setOnClickListener(this);
 
 
     }
@@ -45,10 +52,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_login_regis_user:
                 Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
+                //Intent goRegistry = new Intent(getApplicationContext(), MapsActivity.class);
+                //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 startActivity(goRegistry);
                 break;
             case R.id.btn_lose_pass:
-                break;
+
+           /* case R.id.txv_lose_pass:
+                Intent goShop = new Intent(getApplicationContext(), ShopActivity.class);
+                startActivity(goShop);
+                break;*/
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //LoginActivity.this.finish();
     }
 }
