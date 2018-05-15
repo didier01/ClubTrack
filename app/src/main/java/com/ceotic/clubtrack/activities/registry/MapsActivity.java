@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.model.LocationPlace;
@@ -22,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private double latitud , longitud ;
@@ -39,6 +40,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.regis_map);
         mapFragment.getMapAsync(this);
+
+        latitud = location.getLatitude();
+        longitud = location.getLongitude();
+
+        Log.e("info de coordenadas"," lat/long" + latitud +" "+ longitud);
 
     }
 
@@ -68,6 +74,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //region Agregar Marcador
     public void addMarker(double latitud, double longitud) {
 
+        latitud = location.getLatitude();
+        longitud = location.getLongitude();
+
         LatLng coordenate = new LatLng(latitud, longitud);
         CameraUpdate place = CameraUpdateFactory.newLatLngZoom(coordenate, 16);
         if (marker != null) marker.remove();
@@ -86,6 +95,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latitud = location.getLatitude();
             longitud = location.getLongitude();
             addMarker(latitud, longitud);
+
+
         }
     }
     //endregion
@@ -94,6 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(android.location.Location location) {
+
             actulizarUbicaion(location);
         }
 

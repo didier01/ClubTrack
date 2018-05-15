@@ -7,6 +7,7 @@ import android.util.Log;
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import io.realm.Realm;
@@ -87,11 +88,17 @@ public class AppControl {
             public void onSuccess() {
                 Log.e("AppControl Menu","sii inserto");
                 RealmResults<ProductType> findTypes = realm.where(ProductType.class).findAll();
-                Log.e("AppControl No es Error","Cantidad de usuarios: "+findTypes.size());
+                Log.e("AppControl No es Error","Cantidad de tipos de productod : "+findTypes.size());
+
+                RealmResults<User> findUsers = realm.where(User.class).findAll();
+                Log.e("AppControl No es Error","Cantidad de usuarios : "+ "\n" +findUsers.size());
 
                 RealmResults<Product> findPro = realm.where(Product.class).findAll();
-                Log.e("AppControl No es Error","Cantidad de usuarios: "+findPro.size());
+                Log.e("AppControl No es Error","Cantidad de productos: "+findPro.size());
+
+
                 listener.initComplete(true);
+
             }
         }, new Realm.Transaction.OnError() {
             @Override
