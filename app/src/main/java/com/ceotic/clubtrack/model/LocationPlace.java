@@ -1,4 +1,7 @@
+
 package com.ceotic.clubtrack.model;
+
+import java.util.UUID;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -7,9 +10,13 @@ import io.realm.annotations.PrimaryKey;
 public class LocationPlace extends RealmObject {
 
     @Ignore
+    private final String TAG = User.class.toString();
+
     @PrimaryKey
-    private String idUser;
     private String idLocation;
+
+    private String idUser;
+
 
     private String address;
     private String urlAddress;
@@ -18,6 +25,7 @@ public class LocationPlace extends RealmObject {
     private double longitude;
 
     public LocationPlace(String address, String urlAddress, int typeAddress, double latitude, double longitude) {
+        this.idLocation = UUID.randomUUID().toString();
         this.address = address;
         this.urlAddress = urlAddress;
         this.typeAddress = typeAddress;
@@ -87,8 +95,8 @@ public class LocationPlace extends RealmObject {
     @Override
     public String toString() {
         return "LocationPlace{" +
-                "idUser='" + idUser + '\'' +
-                ", idLocation='" + idLocation + '\'' +
+                "idLocation='" + idLocation + '\'' +
+                ", idUser='" + idUser + '\'' +
                 ", address='" + address + '\'' +
                 ", urlAddress='" + urlAddress + '\'' +
                 ", typeAddress=" + typeAddress +

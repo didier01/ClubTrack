@@ -68,7 +68,7 @@ public class RegistryUserActivity extends AppCompatActivity {
                     .findAll();
 
             RealmResults<User> findDni = realm.where(User.class)
-                    .equalTo("email",dniUser)
+                    .equalTo("dniUser",dniUser)
                     .findAll();
             //endregion
 
@@ -127,10 +127,6 @@ public class RegistryUserActivity extends AppCompatActivity {
             }
             //endregion
 
-            //Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
-            //startActivity(goRegisLocation);
-
-
 
         }
     };
@@ -150,7 +146,6 @@ public class RegistryUserActivity extends AppCompatActivity {
                 user.setTelephone2(edtPhone2.getText().toString().trim());
                 user.setEmail(edtEmail.getText().toString().trim());
 
-
                 user.setUser(edtUser.getText().toString().trim());
                 user.setPassword(edtPassword.getText().toString().trim());
 
@@ -159,17 +154,22 @@ public class RegistryUserActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 RealmResults<User> users = realm.where(User.class).findAll();
-                Toast.makeText(RegistryUserActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                Log.d("succes", "insertado \n" + users);
+                Toast.makeText(RegistryUserActivity.this, "Registro exitoso" , Toast.LENGTH_SHORT).show();
+                Log.d("succes", "insertado" + users);
 
+                String idUser = edtDni.getText().toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("myid",idUser);
 
                 Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+                goRegisLocation.putExtras(bundle);
                 startActivity(goRegisLocation);
+
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                Toast.makeText(RegistryUserActivity.this, "No se resitro el usuario", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistryUserActivity.this, "No se registro el usuario", Toast.LENGTH_SHORT).show();
                 Log.d("Error", "Noooooo insertadooooooo");
             }
         });

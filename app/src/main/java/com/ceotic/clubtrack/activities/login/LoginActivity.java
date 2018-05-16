@@ -104,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_login_regis_user:
                 Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
-                //Intent goRegistry = new Intent(getApplicationContext(), MapsActivity.class);
                 //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 startActivity(goRegistry);
                 break;

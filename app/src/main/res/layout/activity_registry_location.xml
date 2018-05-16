@@ -27,9 +27,7 @@
                     android:gravity="center_horizontal"
                     android:text="Registra tu dirección"
                     android:textSize="@dimen/text_size" />
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,6 +45,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
+
                     <RadioButton
                         android:id="@+id/rbtn_home"
                         android:layout_width="wrap_content"
@@ -60,7 +59,6 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-
                         <ImageView
                             android:layout_width="60sp"
                             android:layout_height="60sp"
@@ -73,6 +71,7 @@
                             android:text="Hogar"
                             android:textSize="@dimen/text_size" />
                     </LinearLayout>
+
 
                     <RadioButton
                         android:id="@+id/rbtn_office"
@@ -96,6 +95,34 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Oficina"
+                            android:textSize="@dimen/text_size" />
+                    </LinearLayout>
+
+
+                    <RadioButton
+                        android:id="@+id/rbtn_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_rigth_edit_text"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+
+                        <ImageView
+                            android:layout_width="60sp"
+                            android:layout_height="60sp"
+                            android:src="@drawable/house" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Otro"
                             android:textSize="@dimen/text_size" />
                     </LinearLayout>
 

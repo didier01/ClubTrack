@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.model.LocationPlace;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
 import com.ceotic.clubtrack.model.User;
@@ -91,11 +92,13 @@ public class AppControl {
                 Log.e("AppControl No es Error","Cantidad de tipos de productod : "+findTypes.size());
 
                 RealmResults<User> findUsers = realm.where(User.class).findAll();
-                Log.e("AppControl No es Error","Cantidad de usuarios : "+ "\n" +findUsers.size());
+                Log.e("AppControl No es Error","Cantidad de usuarios : " +findUsers.size());
 
                 RealmResults<Product> findPro = realm.where(Product.class).findAll();
                 Log.e("AppControl No es Error","Cantidad de productos: "+findPro.size());
 
+                RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
+                Log.e("AppControl No es Error","lugares: "+places);
 
                 listener.initComplete(true);
 
