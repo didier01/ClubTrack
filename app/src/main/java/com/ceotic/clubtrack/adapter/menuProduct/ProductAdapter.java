@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.control.AppControl;
+import com.ceotic.clubtrack.dialog.DialogBuyProduct;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
 
@@ -31,7 +33,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
 
         realm = Realm.getDefaultInstance();
         appControl = AppControl.getInstance();
-
         this.list = list;
         this.context = context;
     }
@@ -54,6 +55,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         holder.txvPrice.setText(""+product.getPrice());
         holder.txvQuantity.setText(""+product.getQuantity());
         holder.txvTypeQuantity.setText(product.getTypeQuantity());
+
+        holder.btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogBuyProduct dialogBuyProduct = new DialogBuyProduct(v.getContext(),product);
+                dialogBuyProduct.show();
+            }
+        });
+
     }
 
     @Override
@@ -61,7 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         return list.size();
     }
 
-    public class ProducViewHolder extends RecyclerView.ViewHolder {
+    public class ProducViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         protected ImageView imvProduct;
         protected TextView txvName;
@@ -70,9 +80,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         protected TextView txvQuantity;
         protected TextView txvTypeQuantity;
         protected TextView txvPoints;
+        protected Button btnBuy;
+
+        final Product product = new Product();
 
         public ProducViewHolder(View itemView) {
             super(itemView);
+
+
 
             imvProduct = itemView.findViewById(R.id.imv_item_product);
             txvName = itemView.findViewById(R.id.txv_item_name_product);
@@ -80,6 +95,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
             txvPrice = itemView.findViewById(R.id.txv_item_price_product);
             txvQuantity = itemView.findViewById(R.id.txv_item_size_product);
             txvTypeQuantity = itemView.findViewById(R.id.txv_item_type_size_product);
+            btnBuy = itemView.findViewById(R.id.btn_item_buy_product);
+
+           /* btnBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogBuyProduct dialogBuyProduct = new DialogBuyProduct(v.getContext(),product);
+                    dialogBuyProduct.show();
+                }
+            });*/
         }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+
     }
 }

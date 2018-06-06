@@ -57,7 +57,7 @@ public class AppControl {
                     //productType = realm.createObject(ProductType.class);
                     ProductType pdt1 = new ProductType(R.drawable.aseococina,"Aseo Cocina");
                     ProductType pdt2 = new ProductType(R.drawable.care,"Cuidado personal");
-                    ProductType pdt3 = new ProductType(R.drawable.care,"Cuidado ropa");
+                    ProductType pdt3 = new ProductType(R.drawable.ropa,"Cuidado ropa");
                     ProductType pdt4 = new ProductType(R.drawable.lineahogar,"Linea hogar");
 
                     realm.copyToRealm(pdt1);
@@ -67,12 +67,12 @@ public class AppControl {
                 }//endregion
                 if (realm.where(Product.class).findAll().isEmpty()){
 
-                    Product prod = new Product("Track",R.drawable.cocina,"Jabon para platos",6000,400,"gr",10);
-                    Product prod1 = new Product("Track 1",R.drawable.ropa,"Jabon para vasos",5000,600,"gr",10);
-                    Product prod2 = new Product("mas Track",R.drawable.care,"Jabon mas platos",666,400,"gr",10);
-                    Product prod3 = new Product("Track",R.drawable.cocina,"Jabon huele rico",9000,900,"gr",10);
-                    Product prod4 = new Product("Track",R.drawable.ropa,"Jabon huele mas rico",6000,400,"gr",10);
-                    Product prod5 = new Product("Track",R.drawable.care,"Jabon no huele",20000,100,"gr",10);
+                    Product prod = new Product("Aseo Cocina","Track",R.drawable.cocina,"Jabon para platos",6000,400,"gr",10);
+                    Product prod1 = new Product("Cuidado ropa","Track 1",R.drawable.ropa,"Jabon para vasos",5000,600,"gr",10);
+                    Product prod2 = new Product("Cuidado personal","mas Track",R.drawable.care,"Jabon mas platos",666,400,"gr",10);
+                    Product prod3 = new Product("Linea hogar","Track",R.drawable.cocina,"Jabon huele rico",9000,900,"gr",10);
+                    Product prod4 = new Product("Aseo Cocina","Track",R.drawable.ropa,"Jabon huele mas rico",6000,400,"gr",10);
+                    Product prod5 = new Product("Cuidado personal","Track",R.drawable.care,"Jabon no huele",20000,100,"gr",10);
 
                     realm.copyToRealm(prod);
                     realm.copyToRealm(prod1);

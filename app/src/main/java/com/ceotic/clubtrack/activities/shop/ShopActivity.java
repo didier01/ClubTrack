@@ -1,14 +1,20 @@
 package com.ceotic.clubtrack.activities.shop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.adapter.menu.MenuAdapter;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
@@ -30,6 +36,7 @@ public class ShopActivity extends AppCompatActivity {
     ProductAdapter productAdapter;
 
     List<Product> productList;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,42 +51,52 @@ public class ShopActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
-
-
-        List<Product> typeList = new ArrayList<>();
-
-        RealmResults<Product> findTypes = realm.where(Product.class).findAll();
-        Log.e("ShopActivityNo es Error","CAntidad de usuarios: "+findTypes.size());
-        for(Product pro: findTypes){
-            //typeList.add(pro);
-            Log.d("ShopActivity","name: " + pro.getNameProduct());
-            typeList.addAll(findTypes);
-        }
-
-        typeList = findTypes;
-        productList = typeList;
-        productAdapter = new ProductAdapter(typeList,getApplicationContext());
-        recyclerView.setAdapter(productAdapter);
-
-
+        name = getIntent().getStringExtra("name");
         addRecycler();
 
     }
 
-    public void addRecycler(){
+    //region Llenando el recycler
+    public void addRecycler() {
         List<Product> typeList = new ArrayList<>();
 
-        RealmResults<Product> findTypes = realm.where(Product.class).findAll();
-        Log.e("No es Error","CAntidad de usuarios: "+findTypes.size());
-        for(Product pro: findTypes){
+        RealmResults<Product> findTypes = realm.where(Product.class)
+                .equalTo("idTypeProduct", name)
+                .findAll();
+        Log.e("ShopActivityNo es Error", "Cantidad de tipos: " + findTypes.size());
+        for (Product pro : findTypes) {
             //typeList.add(pro);
-            Log.d("MainActivity","name: " + pro.getNameProduct());
+            Log.d("ShopActivity", "name: " + pro.getNameProduct());
             typeList.addAll(findTypes);
         }
 
         typeList = findTypes;
         productList = typeList;
-        productAdapter = new ProductAdapter(typeList,getApplicationContext());
+        productAdapter = new ProductAdapter(typeList, getApplicationContext());
         recyclerView.setAdapter(productAdapter);
     }
+    //endregion
+
+    //region ajustes actionBar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(goSettings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    //endregion
 }

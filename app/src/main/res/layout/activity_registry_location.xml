@@ -155,7 +155,6 @@
                     android:layout_marginTop="@dimen/margin_top"
                     tools:context=".activities.registry.MapsActivity" />
 
-
                 <Button
                     android:id="@+id/btn_go_location"
                     android:layout_width="wrap_content"

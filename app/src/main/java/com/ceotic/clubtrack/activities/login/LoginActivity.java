@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RealmResults<User> findPass = realm.where(User.class)
                 .equalTo("password", password)
                 .findAll();
-//endregion
+        //endregion
 
 
         switch (v.getId()) {
@@ -103,8 +103,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 break;
             case R.id.btn_login_regis_user:
-                Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
-                //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+                //Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
+                Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 startActivity(goRegistry);
                 break;
             case R.id.btn_lose_pass:

@@ -24,7 +24,7 @@ public class Product extends RealmObject{
     private String typeQuantity;
     private int points;
 
-    public Product(String nameProduct, int imageProduct, String descriptionProduct, int price, int quantity, String typeQuantity, int points) {
+    public Product(String idTypeProduct, String nameProduct, int imageProduct, String descriptionProduct, int price, int quantity, String typeQuantity, int points) {
         this.idProduct = UUID.randomUUID().toString();
         this.idTypeProduct = idTypeProduct;
         this.nameProduct = nameProduct;

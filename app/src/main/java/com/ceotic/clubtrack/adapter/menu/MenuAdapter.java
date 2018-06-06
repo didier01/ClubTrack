@@ -1,6 +1,7 @@
 package com.ceotic.clubtrack.adapter.menu;
 
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
@@ -32,35 +34,25 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     Realm realm;
 
 
-
     public MenuAdapter(List<ProductType> list, Context context) {
 
         realm = Realm.getDefaultInstance();
         appControl = AppControl.getInstance();
-
         this.list = list;
         this.context = context;
     }
 
-
-    @Override
+    /*@Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
 
 
-    }
+    }*/
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu, parent, false);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),ShopActivity.class);
-                v.getContext().startActivity(intent);
-            }
-        });
         return new MenuViewHolder(view);
     }
 
@@ -69,11 +61,25 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
         final ProductType productType = list.get(position);
 
-        //int image = context.getResources().getIdentifier()
         holder.imvTypeProduct.setImageResource(productType.getImageType());
         holder.txvNameTypeProduct.setText(productType.getNameTypeProduct());
 
+        String name = productType.getNameTypeProduct();
+        Log.e("AdapterMenu","Name type "+ name);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = productType.getNameTypeProduct().toString();
+                String id = productType.getIdTypeProduct().toString();
+
+                Log.e("AdapterMenu","Name type "+ name);
+                Toast.makeText(v.getContext(), ""+ name , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(),ShopActivity.class);
+                intent.putExtra("name",name);
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
@@ -82,8 +88,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public int getItemCount() {
         return list.size();
     }
-
-
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -97,20 +101,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             imvTypeProduct = itemView.findViewById(R.id.imv_item_menu);
             txvNameTypeProduct = itemView.findViewById(R.id.txv_item_menu);
 
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id = (int) getItemId();
-                    Intent intent = new Intent(v.getContext(),ShopActivity.class);
-                    v.getContext().startActivity(intent);
-                    Log.e("MenuAdapter","ID del item "+id);
-
-                }
-            });
-
         }
-
 
         @Override
         public void onClick(View v) {

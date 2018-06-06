@@ -42,9 +42,11 @@ public class RegistryUserActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edt_regis_password);
         edtConfirmPass = findViewById(R.id.edt_regis_confirm_password);
 
+
         btnNext = findViewById(R.id.btn_next);
 
         btnNext.setOnClickListener(goNext);
+
     }
 
     // Logica boton continuar
