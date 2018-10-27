@@ -23,6 +23,7 @@ import com.ceotic.clubtrack.model.ProductType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,6 +38,7 @@ public class ShopActivity extends AppCompatActivity {
 
     List<Product> productList;
     String name;
+    private Map<Product, Integer> mapDetailCarts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +96,28 @@ public class ShopActivity extends AppCompatActivity {
                 Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(goSettings);
                 return true;
+            case R.id.action_car:
+                Intent goCar = new Intent(this, OrderActivity.class);
+                startActivity(goCar);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
     //endregion
+
+    public void addProductDetailCart(Product product, int cant) {
+
+        System.out.println("size map: " + mapDetailCarts.size());
+        if (mapDetailCarts.containsKey(product)) mapDetailCarts.remove(product);
+        System.out.println("size map: " + mapDetailCarts.size());
+        if (cant > 0) mapDetailCarts.put(product, cant);
+        System.out.println("size map: " + mapDetailCarts.size());
+        //Utils.setBadgeCount(this, icon, mapDetailCarts.size());
+//        for (Map.Entry<Product, Integer> entry: mapDetailCarts.entrySet()) {
+//            System.out.println("name: "+entry.getKey().getNameProduct() + "  cant: "+entry.getValue());
+//        }
+    }
+
+
 }

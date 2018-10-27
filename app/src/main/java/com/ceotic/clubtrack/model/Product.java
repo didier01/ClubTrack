@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Product extends RealmObject{
     @Ignore
-    private final String TAG = User.class.toString();
+    private final String TAG = Product.class.toString();
 
     @PrimaryKey
     private String idProduct;

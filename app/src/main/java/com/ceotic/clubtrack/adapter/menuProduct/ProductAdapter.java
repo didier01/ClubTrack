@@ -3,6 +3,7 @@ package com.ceotic.clubtrack.adapter.menuProduct;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,20 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.dialog.DialogBuyProduct;
+import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducViewHolder> {
 
@@ -40,27 +45,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
     @NonNull
     @Override
     public ProducViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         return new ProducViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProducViewHolder holder, int position) {
+    public void onBindViewHolder(ProducViewHolder holder, final int position) {
 
         final Product product = list.get(position);
 
         holder.imvProduct.setImageResource(product.getImageProduct());
         holder.txvName.setText(product.getNameProduct());
         holder.txvDescription.setText(product.getDescriptionProduct());
-        holder.txvPrice.setText(""+product.getPrice());
-        holder.txvQuantity.setText(""+product.getQuantity());
+        holder.txvPrice.setText("" + product.getPrice());
+        holder.txvQuantity.setText("" + product.getQuantity());
         holder.txvTypeQuantity.setText(product.getTypeQuantity());
 
         holder.btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogBuyProduct dialogBuyProduct = new DialogBuyProduct(v.getContext(),product);
+                DialogBuyProduct dialogBuyProduct = new DialogBuyProduct(v.getContext(), product.getIdProduct());
                 dialogBuyProduct.show();
+
             }
         });
 
@@ -71,7 +77,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         return list.size();
     }
 
-    public class ProducViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ProducViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         protected ImageView imvProduct;
         protected TextView txvName;
@@ -87,8 +93,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         public ProducViewHolder(View itemView) {
             super(itemView);
 
-
-
             imvProduct = itemView.findViewById(R.id.imv_item_product);
             txvName = itemView.findViewById(R.id.txv_item_name_product);
             txvDescription = itemView.findViewById(R.id.txv_item_description_product);
@@ -97,20 +101,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
             txvTypeQuantity = itemView.findViewById(R.id.txv_item_type_size_product);
             btnBuy = itemView.findViewById(R.id.btn_item_buy_product);
 
-           /* btnBuy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DialogBuyProduct dialogBuyProduct = new DialogBuyProduct(v.getContext(),product);
-                    dialogBuyProduct.show();
-                }
-            });*/
         }
 
         @Override
         public void onClick(View v) {
 
         }
-
-
     }
+
 }

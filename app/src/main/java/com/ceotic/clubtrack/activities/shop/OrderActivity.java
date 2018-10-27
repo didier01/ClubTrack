@@ -1,4 +1,4 @@
-package com.ceotic.clubtrack.activities.menu;
+package com.ceotic.clubtrack.activities.shop;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,20 +11,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.activities.settings.SettingsActivity;
-import com.ceotic.clubtrack.activities.shop.OrderActivity;
-import com.ceotic.clubtrack.activities.shop.ShopActivity;
-import com.ceotic.clubtrack.adapter.menu.MenuAdapter;
+import com.ceotic.clubtrack.adapter.cart.CartAdapter;
+import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
-import com.ceotic.clubtrack.model.LocationPlace;
+import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Product;
-import com.ceotic.clubtrack.model.ProductType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,26 +33,35 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class OrderActivity extends AppCompatActivity implements View.OnClickListener{
+
     Realm realm;
     AppControl appControl;
+    Context context;
 
     RecyclerView recyclerView;
-    MenuAdapter menuAdapter;
+    CartAdapter cartAdapter;
 
-    List<ProductType> lstProType;
-    int pos;
-    Context context;
+    List<DetailOrder> orderList;
+
+    TextView tvAddMore, tvDeleteAll;
+    Button btnOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_order);
 
         appControl = AppControl.getInstance();
         realm = Realm.getDefaultInstance();
 
-        recyclerView = findViewById(R.id.recycler_menu);
+        tvAddMore = findViewById(R.id.tv_cart_menu_add_more);
+        tvDeleteAll = findViewById(R.id.tv_cart_menu_empty);
+        btnOrder = findViewById(R.id.btn_cart_order);
+
+        tvAddMore.setOnClickListener(this);
+
+        recyclerView = findViewById(R.id.recycler_cart);
         GridLayoutManager llm = new GridLayoutManager(getApplicationContext(), 1);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
@@ -60,24 +70,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //region Listar los tipos de productos
-    public void addRecycler() {
-        List<ProductType> typeList = new ArrayList<>();
 
-        RealmResults<ProductType> findTypes = realm.where(ProductType.class).findAll();
-        Log.e("MainActvity No es Error", "Cantidad de tipos : " + findTypes.size());
-        for (ProductType pro : findTypes) {
-            Log.d("MainActivity", "name: " + pro.getNameTypeProduct());
+    //region Llenando el recycler
+    public void addRecycler() {
+        List<DetailOrder> typeList = new ArrayList<>();
+
+        RealmResults<DetailOrder> findTypes = realm.where(DetailOrder.class)
+               // .equalTo("idTypeProduct", name)
+                .findAll();
+        Log.e("OrderActivity es Error", "Cantidad de tipos: " + findTypes.size());
+        for (DetailOrder order : findTypes) {
+            //typeList.add(pro);
+            Log.d("OrderActivity", "name: " + order.getProduct());
             typeList.addAll(findTypes);
         }
 
         typeList = findTypes;
-        lstProType = typeList;
-        menuAdapter = new MenuAdapter(typeList, getApplicationContext());
-        menuAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(menuAdapter);
+        orderList = typeList;
+        cartAdapter = new CartAdapter(typeList, getApplicationContext());
+        recyclerView.setAdapter(cartAdapter);
     }
-
     //endregion
 
     //region ajustes actionBar
@@ -98,18 +110,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goSettings);
                 return true;
             case R.id.action_car:
-                Intent goCart = new Intent(getApplicationContext(), OrderActivity.class);
-                startActivity(goCart);
+                Intent goCar = new Intent(this, OrderActivity.class);
+                startActivity(goCar);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
     //endregion
 
+    ///region Botones del sistema
     @Override
-    public void onBackPressed() {
+    public void onClick(View v) {
 
-        //super.onBackPressed();
+        switch (v.getId()){
+            case R.id.tv_cart_menu_add_more:
+                Intent goMenu = new Intent(OrderActivity.this, MainActivity.class);
+                startActivity(goMenu);
+                break;
+            case R.id.tv_cart_menu_empty:
+                break;
+            case R.id.btn_cart_order:
+                break;
+        }
+
     }
+    ///endregion
 }

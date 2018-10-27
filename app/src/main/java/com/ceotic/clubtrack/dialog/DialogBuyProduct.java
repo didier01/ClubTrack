@@ -2,26 +2,45 @@ package com.ceotic.clubtrack.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
+import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
+import com.ceotic.clubtrack.activities.shop.ShopActivity;
+import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Product;
+import com.ceotic.clubtrack.model.User;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 
 public class DialogBuyProduct extends Dialog implements View.OnClickListener {
 
-    private Product product;
+    Realm realm;
+    private DetailOrder detailOrder;
+
+    private Product product,productsave;
 
     private ImageView imvImageProduct;
     private ImageView imvRemoveProduct;
@@ -34,18 +53,16 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private Button btnOk;
 
     private int quantity = 1;
+    private String idproduct="";
 
-
-    public DialogBuyProduct(@NonNull Context context, Product product) {
+    public DialogBuyProduct(@NonNull Context context, String idproduct) {
         super(context);
-        this.product = product;
+        realm = Realm.getDefaultInstance();
+        this.idproduct=idproduct;
+        this.product = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
         init();
-    }
 
-    public DialogBuyProduct(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
     }
-
 
     private void init() {
         //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -62,6 +79,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         edtQuantity = findViewById(R.id.edt_quantity_dialog);
         btnCancel = findViewById(R.id.btn_cancel_dialog);
         btnOk = findViewById(R.id.btn_ok_dialog);
+
 
         setInfoView();
 
@@ -98,6 +116,8 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         });
 
         //endregion
+
+
     }
 
 
@@ -119,6 +139,8 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.btn_ok_dialog:
+                saveDataCart();
+                dismiss();
                 break;
             case R.id.imv_remove:
                 quantity--;
@@ -135,4 +157,47 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 break;
         }
     }
+
+
+    private void saveDataCart() {
+
+
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+
+            @Override
+            public void execute(Realm bgRealm) {
+
+                //product =  new Product();
+
+                productsave = bgRealm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
+
+                detailOrder = bgRealm.createObject(DetailOrder.class, UUID.randomUUID().toString());
+                detailOrder.setProduct(productsave.getIdProduct());
+                detailOrder.setQuantity(quantity);
+                detailOrder.setPrice(productsave.getPrice());
+
+
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                RealmResults<DetailOrder> products = realm.where(DetailOrder.class).findAll();
+                Toast.makeText(getContext(), "agregado al carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
+                Log.e("succes", "insertado" + products);
+
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Toast.makeText(getContext(), "No se guardo en el carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
+                Log.e("Error", "Noooooo insertadooooooo");
+            }
+        });
+
+
+    }
+
+
 }
