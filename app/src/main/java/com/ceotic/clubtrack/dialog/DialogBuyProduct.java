@@ -23,6 +23,7 @@ import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
 import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.model.DetailOrder;
+import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.User;
 import com.squareup.picasso.Picasso;
@@ -39,8 +40,9 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
 
     Realm realm;
     private DetailOrder detailOrder;
+    private Order order, orderSave;
 
-    private Product product,productsave;
+    private Product product, productsave;
 
     private ImageView imvImageProduct;
     private ImageView imvRemoveProduct;
@@ -53,12 +55,12 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private Button btnOk;
 
     private int quantity = 1;
-    private String idproduct="";
+    private String idproduct = "";
 
     public DialogBuyProduct(@NonNull Context context, String idproduct) {
         super(context);
         realm = Realm.getDefaultInstance();
-        this.idproduct=idproduct;
+        this.idproduct = idproduct;
         this.product = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
         init();
 
@@ -139,6 +141,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.btn_ok_dialog:
+                createOrder();
                 saveDataCart();
                 dismiss();
                 break;
@@ -158,9 +161,59 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         }
     }
 
+    //region CREACION DE LA ORDEN
+    public void createOrder() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                RealmResults<Order> findOrders = realm.where(Order.class)
+                        .equalTo("status", 1)
+                        .findAll();
+
+                if (findOrders.isEmpty()) {
+                    order = realm.createObject(Order.class, UUID.randomUUID().toString());
+                    order.setStatus(Order.CREATED);
+
+                    orderSave = realm.where(Order.class)
+                            .equalTo("status", Order.CREATED)
+                            .findFirst();
+                }
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                RealmResults<Order> orders = realm.where(Order.class).findAll();
+                RealmResults<Order> findOrders = realm.where(Order.class)
+                        .equalTo("status", 1)
+                        .findAll();
+                orderSave = realm.where(Order.class).equalTo("status", Order.CREATED).findFirst();
+
+                if (!findOrders.isEmpty()) {
+                    Toast.makeText(getContext(), "si creo la orden ", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "Numero de orden " + orderSave.getIdOrder(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Numero de ordenes " + orders.size(), Toast.LENGTH_SHORT).show();
+                    Log.i("DialogBuyProduct", "Se  creo la orden");
+
+                } else {
+                    Toast.makeText(getContext(), "orden ya creada", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                RealmResults<Order> orders = realm.where(Order.class).findAll();
+                //Toast.makeText(getContext(), "Numero de orden " + order.getIdOrder(), Toast.LENGTH_SHORT).show();
+                Log.e("DialogBuyProduct", "No creo la orden");
+                Toast.makeText(getContext(), "no creo la orden ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Numero de ordenes " + orders.size(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //endregion
 
     private void saveDataCart() {
-
 
 
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -168,7 +221,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
             @Override
             public void execute(Realm bgRealm) {
 
-                //product =  new Product();
+                // CONSULTO EL ID DEL PRODUCTO Y LO GUARDO EN LA CLASE DETAILORDER
 
                 productsave = bgRealm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
 
@@ -176,7 +229,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 detailOrder.setProduct(productsave.getIdProduct());
                 detailOrder.setQuantity(quantity);
                 detailOrder.setPrice(productsave.getPrice());
-
+                detailOrder.setOrder(orderSave.getIdCart());
 
 
             }
@@ -185,6 +238,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
             public void onSuccess() {
                 RealmResults<DetailOrder> products = realm.where(DetailOrder.class).findAll();
                 Toast.makeText(getContext(), "agregado al carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Numero de Orden " + orderSave.getIdCart(), Toast.LENGTH_SHORT).show();
                 Log.e("succes", "insertado" + products);
 
             }
@@ -192,6 +246,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(getContext(), "No se guardo en el carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Numero de Orden " + orderSave.getIdCart(), Toast.LENGTH_SHORT).show();
                 Log.e("Error", "Noooooo insertadooooooo");
             }
         });
