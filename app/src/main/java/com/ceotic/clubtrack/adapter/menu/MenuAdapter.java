@@ -16,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.util.Catalog;
 
 import java.util.List;
 
@@ -27,27 +29,18 @@ import io.realm.RealmResults;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
 
-    List<ProductType> list;
-
-    Context context;
-    AppControl appControl;
-    Realm realm;
-
+    private static final String TAG = MenuAdapter.class.getSimpleName();
+    private List<ProductType> list;
+    private Context context;
+    private AppControl appControl;
+    private Realm realm;
 
     public MenuAdapter(List<ProductType> list, Context context) {
-
         realm = Realm.getDefaultInstance();
         appControl = AppControl.getInstance();
         this.list = list;
         this.context = context;
     }
-
-    /*@Override
-    public void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-
-
-    }*/
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,16 +57,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         holder.imvTypeProduct.setImageResource(productType.getImageType());
         holder.txvNameTypeProduct.setText(productType.getNameTypeProduct());
 
-        String name = productType.getNameTypeProduct();
-        Log.e("AdapterMenu","Name type "+ name);
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = productType.getNameTypeProduct().toString();
-                String id = productType.getIdTypeProduct().toString();
+                String name = productType.getNameTypeProduct();
+                Catalog.NAME = productType.getNameTypeProduct();
 
-                Log.e("AdapterMenu","Name type "+ name);
+                Log.e(TAG,"Name type "+ name);
                 Toast.makeText(v.getContext(), ""+ name , Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(),ShopActivity.class);
                 intent.putExtra("name",name);

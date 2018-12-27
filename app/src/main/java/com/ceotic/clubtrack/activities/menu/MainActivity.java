@@ -1,6 +1,6 @@
 package com.ceotic.clubtrack.activities.menu;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,37 +11,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.activities.shop.OrderActivity;
-import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.adapter.menu.MenuAdapter;
 import com.ceotic.clubtrack.control.AppControl;
-import com.ceotic.clubtrack.model.LocationPlace;
-import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.util.MenuActionBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
-    Realm realm;
-    AppControl appControl;
+public class MainActivity extends MenuActionBar {
 
-    RecyclerView recyclerView;
-    MenuAdapter menuAdapter;
-
-    List<ProductType> lstProType;
-    int pos;
-    Context context;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private Realm realm;
+    private AppControl appControl;
+    private RecyclerView recyclerView;
+    private MenuAdapter menuAdapter;
+    private List<ProductType> lstProType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
         List<ProductType> typeList = new ArrayList<>();
 
         RealmResults<ProductType> findTypes = realm.where(ProductType.class).findAll();
-        Log.e("MainActvity No es Error", "Cantidad de tipos : " + findTypes.size());
+        Log.e(TAG, "Cantidad de tipos : " + findTypes.size());
         for (ProductType pro : findTypes) {
-            Log.d("MainActivity", "name: " + pro.getNameTypeProduct());
+            Log.d(TAG, "name: " + pro.getNameTypeProduct());
             typeList.addAll(findTypes);
         }
 
@@ -80,32 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
     //endregion
 
-    //region ajustes actionBar
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-
-            case R.id.action_settings:
-                Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(goSettings);
-                return true;
-            case R.id.action_car:
-                Intent goCart = new Intent(getApplicationContext(), OrderActivity.class);
-                startActivity(goCart);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    //endregion
 
     @Override
     public void onBackPressed() {

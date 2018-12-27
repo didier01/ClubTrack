@@ -26,6 +26,7 @@ import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.User;
+import com.ceotic.clubtrack.util.MenuActionBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,12 +39,10 @@ import io.realm.RealmResults;
 
 public class DialogBuyProduct extends Dialog implements View.OnClickListener {
 
-    Realm realm;
+    private static final String TAG = DialogBuyProduct.class.getSimpleName();
     private DetailOrder detailOrder;
     private Order order, orderSave;
-
     private Product product, productsave;
-
     private ImageView imvImageProduct;
     private ImageView imvRemoveProduct;
     private ImageView imvAddProduct;
@@ -53,15 +52,16 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private EditText edtQuantity;
     private Button btnCancel;
     private Button btnOk;
-
     private int quantity = 1;
     private String idproduct = "";
+    private Realm realm;
 
     public DialogBuyProduct(@NonNull Context context, String idproduct) {
         super(context);
         realm = Realm.getDefaultInstance();
         this.idproduct = idproduct;
         this.product = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
+        this.orderSave = orderSave;
         init();
 
     }
@@ -72,6 +72,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         getWindow().setBackgroundDrawableResource(R.drawable.shadow);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        //region asignando variables
         imvImageProduct = findViewById(R.id.imv_image_dialog);
         imvRemoveProduct = findViewById(R.id.imv_remove);
         imvAddProduct = findViewById(R.id.imv_add);
@@ -81,18 +82,17 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         edtQuantity = findViewById(R.id.edt_quantity_dialog);
         btnCancel = findViewById(R.id.btn_cancel_dialog);
         btnOk = findViewById(R.id.btn_ok_dialog);
-
+        //endregion
 
         setInfoView();
-
         edtQuantity.setText(quantity + "");
 
-        //ASIGNANDO BOTONES
+        //region ASIGNANDO BOTONES
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         imvAddProduct.setOnClickListener(this);
         imvRemoveProduct.setOnClickListener(this);
-
+        //endregion
 
         // region cambio de cantidad a comprar
         edtQuantity.addTextChangedListener(new TextWatcher() {
@@ -116,22 +116,20 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 }
             }
         });
-
         //endregion
-
 
     }
 
-
+    //region Asigna datos al cardView
     private void setInfoView() {
 
         Picasso.get().load(product.getImageProduct()).into(imvImageProduct);
         tvNameProduct.setText(product.getNameProduct());
         tvPriceProduct.setText("$ " + product.getPrice());
         tvDetailProduct.setText(product.getDescriptionProduct());
+    }//endregion
 
-    }
-
+    //region Clic de los botones
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -144,6 +142,11 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 createOrder();
                 saveDataCart();
                 dismiss();
+
+                Intent intent = new Intent(getContext(), ShopActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                getContext().startActivity(intent);
+
                 break;
             case R.id.imv_remove:
                 quantity--;
@@ -159,62 +162,45 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 edtQuantity.setText(quantity + "");
                 break;
         }
-    }
+    }//endregion
 
-    //region CREACION DE LA ORDEN
+    //region Crea orden para asignar en detailOrder
     public void createOrder() {
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
 
                 RealmResults<Order> findOrders = realm.where(Order.class)
-                        .equalTo("status", 1)
+                        .equalTo("status", Order.CREATED)
                         .findAll();
 
                 if (findOrders.isEmpty()) {
                     order = realm.createObject(Order.class, UUID.randomUUID().toString());
                     order.setStatus(Order.CREATED);
-
-                    orderSave = realm.where(Order.class)
-                            .equalTo("status", Order.CREATED)
-                            .findFirst();
                 }
+                orderSave = realm.copyFromRealm(realm.where(Order.class)
+                        .equalTo("status", Order.CREATED)
+                        .findFirst());
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                RealmResults<Order> orders = realm.where(Order.class).findAll();
-                RealmResults<Order> findOrders = realm.where(Order.class)
-                        .equalTo("status", 1)
-                        .findAll();
-                orderSave = realm.where(Order.class).equalTo("status", Order.CREATED).findFirst();
-
-                if (!findOrders.isEmpty()) {
-                    Toast.makeText(getContext(), "si creo la orden ", Toast.LENGTH_SHORT).show();
-                    // Toast.makeText(getContext(), "Numero de orden " + orderSave.getIdOrder(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getContext(), "Numero de ordenes " + orders.size(), Toast.LENGTH_SHORT).show();
-                    Log.i("DialogBuyProduct", "Se  creo la orden");
-
-                } else {
-                    Toast.makeText(getContext(), "orden ya creada", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(getContext(), "si creo la orden ", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Se  creo la orden");
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                RealmResults<Order> orders = realm.where(Order.class).findAll();
-                //Toast.makeText(getContext(), "Numero de orden " + order.getIdOrder(), Toast.LENGTH_SHORT).show();
-                Log.e("DialogBuyProduct", "No creo la orden");
+                Log.e(TAG, "No creo la orden");
                 Toast.makeText(getContext(), "no creo la orden ", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Numero de ordenes " + orders.size(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    //endregion
+    }//endregion
 
+    //region Guarda datos de DetailOrder
     private void saveDataCart() {
-
 
         realm.executeTransactionAsync(new Realm.Transaction() {
 
@@ -226,11 +212,10 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 productsave = bgRealm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
 
                 detailOrder = bgRealm.createObject(DetailOrder.class, UUID.randomUUID().toString());
-                detailOrder.setProduct(productsave.getIdProduct());
+                detailOrder.setIdProduct(productsave.getIdProduct());
                 detailOrder.setQuantity(quantity);
                 detailOrder.setPrice(productsave.getPrice());
-                detailOrder.setOrder(orderSave.getIdCart());
-
+                detailOrder.setIdOrder(orderSave.getIdCart());
 
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -238,21 +223,18 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
             public void onSuccess() {
                 RealmResults<DetailOrder> products = realm.where(DetailOrder.class).findAll();
                 Toast.makeText(getContext(), "agregado al carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Numero de Orden " + orderSave.getIdCart(), Toast.LENGTH_SHORT).show();
-                Log.e("succes", "insertado" + products);
+                Log.e(TAG, "insertado" + products);
 
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(getContext(), "No se guardo en el carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Numero de Orden " + orderSave.getIdCart(), Toast.LENGTH_SHORT).show();
-                Log.e("Error", "Noooooo insertadooooooo");
+                Log.e(TAG, "Noooooo insertadooooooo");
             }
         });
 
-
-    }
+    }//endregion
 
 
 }

@@ -1,8 +1,11 @@
 package com.ceotic.clubtrack.activities.registry;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,6 +37,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -41,19 +46,19 @@ import io.realm.RealmResults;
 
 public class RegistryLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Button btnLocation, btnSave;
-    EditText edtAddress;
-    RadioButton rbtnHome, rbtnOffice,rbtnOther;
-    RadioGroup groupPlaces;
-
-    LocationPlace place;
-    Realm realm;
-    AppControl appControl;
-
+    private static final String TAG = RegistryLocationActivity.class.getSimpleName();
+    private Button btnLocation, btnSave;
+    private EditText edtAddress;
+    private RadioButton rbtnHome, rbtnOffice, rbtnOther;
+    private RadioGroup groupPlaces;
+    private LocationPlace place;
+    private Realm realm;
+    private AppControl appControl;
     private GoogleMap mMap;
     private double latitud, longitud;
     private Marker marker;
-    FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Context context;
 
 
     @Override
@@ -78,15 +83,14 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                 .findFragmentById(R.id.regis_map);
         mapFragment.getMapAsync(this);
 
+        btnSave.setOnClickListener(clicSave);
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
-                savePlace();
-            }
-        });
-
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        btnLocation.setOnClickListener(clicLocation);
     }
 
     //region guardar datos
@@ -106,15 +110,13 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                 } else if (rbtnOther.isChecked() == true) {
                     place.setUrlAddress("OTHER");
                 }
-
-
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
                 RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
                 Toast.makeText(RegistryLocationActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                Log.e("RegisLocation succes", "insertado "+ "\n" + places);
+                Log.e(TAG, "insertado " + "\n" + places);
 
                 Intent goMenu = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(goMenu);
@@ -124,7 +126,7 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(getApplicationContext(), "no registrado ", Toast.LENGTH_SHORT).show();
-                Log.e("RegisLocation Error", "NO insertado ");
+                Log.e(TAG, "NO insertado ");
             }
         });
     }
@@ -132,19 +134,20 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
 
     //endregion
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    //region botones
+    View.OnClickListener clicLocation = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            myLocation();
+        }
+    };
 
-        btnLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myLocation();
-            }
-        });
-
-    }
-
+    View.OnClickListener clicSave = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            savePlace();
+        }
+    };//endregion
 
     //region Agregar Marcador
     public void addMarker(double latitud, double longitud) {
@@ -160,7 +163,6 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
     }
     //endregion
 
-
     //region actualizarPosicion
     public void actulizarUbicaion(Location location) {
         if (location != null) {
@@ -170,8 +172,6 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
         }
     }
     //endregion
-
-
 
     //region asignar ubicacion
     private void myLocation() {
@@ -184,21 +184,18 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-
                             actulizarUbicaion(location);
+                            getAddressFromLocation(location.getLatitude(), location.getLongitude());
                         }
                     });
         } else {
-
             checkLocationPermission();
         }
     }
     //endregion
 
-
     //region pedir permisos de ubicacion
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
 
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -239,16 +236,39 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                             == PackageManager.PERMISSION_GRANTED) {
                         myLocation();
                     }
-
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-
                 }
                 return;
             }
-
         }
     }
 //endregion
+
+    //region Obtener Direccion del lugar
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        String address = "";
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null) {
+                Address returnAddress = addresses.get(0);
+                StringBuilder stringAddress = new StringBuilder("");
+                for (int i = 0; i <= returnAddress.getMaxAddressLineIndex(); i++) {
+                    stringAddress.append(returnAddress.getAddressLine(i)).append("");
+                }
+                address = stringAddress.toString();
+                edtAddress.setText(address);
+                Log.e(TAG + " Cuurent location: ", stringAddress.toString());
+                Toast.makeText(context, "Address" + stringAddress.toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e(TAG + " Cuurent location: ", "no location");
+            }
+        } catch (Exception e) {
+            Log.e(TAG + " Cuurent location: ", "Cant get address");
+        }
+        return address;
+    }//endregion
 }

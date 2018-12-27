@@ -1,44 +1,40 @@
 package com.ceotic.clubtrack.activities.shop;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
-import com.ceotic.clubtrack.activities.settings.SettingsActivity;
-import com.ceotic.clubtrack.adapter.menu.MenuAdapter;
+import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
+import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.util.Catalog;
+import com.ceotic.clubtrack.util.MenuActionBar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ShopActivity extends AppCompatActivity {
+public class ShopActivity extends MenuActionBar {
 
-    Realm realm;
-    AppControl appControl;
-
-    RecyclerView recyclerView;
-    ProductAdapter productAdapter;
-
-    List<Product> productList;
-    String name;
-    private Map<Product, Integer> mapDetailCarts;
+    private static final String TAG = ShopActivity.class.getSimpleName();
+    private RecyclerView recyclerView;
+    private ProductAdapter productAdapter;
+    private List<Product> productList;
+    private String name;
+    private Realm realm;
+    private Order order;
+    private AppControl appControl;
+    private ProductType type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +50,42 @@ public class ShopActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
 
         name = getIntent().getStringExtra("name");
-        addRecycler();
+
+
+        final ProductType type1 = realm.where(ProductType.class)
+                .equalTo("nameTypeProduct",Catalog.NAME)
+                .findFirst();
+
+        //region Crea objeto de Orden para hacer consulta
+        try {
+            order = realm.copyFromRealm(realm.where(Order.class)
+                    .equalTo("status", Order.CREATED)
+                    .findFirst());
+            Log.e(TAG, "Se asigno la orden");
+        } catch (Exception e) {
+            Log.e(TAG, "NO se asigno la orden");
+        }
+        //endregion
+
+        addRecycler(type1);
+        productAdapter.notifyDataSetChanged();
+
+        getSupportActionBar().setTitle(Catalog.NAME);
 
     }
 
     //region Llenando el recycler
-    public void addRecycler() {
+    public void addRecycler(ProductType type1) {
         List<Product> typeList = new ArrayList<>();
 
         RealmResults<Product> findTypes = realm.where(Product.class)
-                .equalTo("idTypeProduct", name)
+                .equalTo("idTypeProduct", type1.getNameTypeProduct())
                 .findAll();
-        Log.e("ShopActivityNo es Error", "Cantidad de tipos: " + findTypes.size());
-        for (Product pro : findTypes) {
+
+        Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
+        for (Product product : findTypes) {
             //typeList.add(pro);
-            Log.d("ShopActivity", "name: " + pro.getNameProduct());
+            Log.d(TAG, "name: " + product.getNameProduct());
             typeList.addAll(findTypes);
         }
 
@@ -79,45 +96,17 @@ public class ShopActivity extends AppCompatActivity {
     }
     //endregion
 
-    //region ajustes actionBar
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-
-            case R.id.action_settings:
-                Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(goSettings);
-                return true;
-            case R.id.action_car:
-                Intent goCar = new Intent(this, OrderActivity.class);
-                startActivity(goCar);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        this.startActivity(intent);
     }
-    //endregion
-
-    public void addProductDetailCart(Product product, int cant) {
-
-        System.out.println("size map: " + mapDetailCarts.size());
-        if (mapDetailCarts.containsKey(product)) mapDetailCarts.remove(product);
-        System.out.println("size map: " + mapDetailCarts.size());
-        if (cant > 0) mapDetailCarts.put(product, cant);
-        System.out.println("size map: " + mapDetailCarts.size());
-        //Utils.setBadgeCount(this, icon, mapDetailCarts.size());
-//        for (Map.Entry<Product, Integer> entry: mapDetailCarts.entrySet()) {
-//            System.out.println("name: "+entry.getKey().getNameProduct() + "  cant: "+entry.getValue());
-//        }
-    }
-
-
 }

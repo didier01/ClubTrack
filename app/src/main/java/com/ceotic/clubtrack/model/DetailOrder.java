@@ -14,14 +14,11 @@ public class DetailOrder extends RealmObject {
 
     @PrimaryKey
     private String idDetailCart;
+
     private String idOrder;
-    //private Product product;
     private String idProduct;
     private int quantity;
     private int price;
-
-    public DetailOrder() {
-    }
 
     public DetailOrder(String idOrder, String idProduct, int quantity, int price) {
         this.idDetailCart = UUID.randomUUID().toString();
@@ -29,6 +26,9 @@ public class DetailOrder extends RealmObject {
         this.idProduct = idProduct;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public DetailOrder() {
     }
 
     public String getIdDetailCart() {
@@ -39,19 +39,19 @@ public class DetailOrder extends RealmObject {
         this.idDetailCart = idDetailCart;
     }
 
-    public String getOrder() {
+    public String getIdOrder() {
         return idOrder;
     }
 
-    public void setOrder(String idOrder) {
+    public void setIdOrder(String idOrder) {
         this.idOrder = idOrder;
     }
 
-    public String getProduct() {
+    public String getIdProduct() {
         return idProduct;
     }
 
-    public void setProduct(String idProduct ) {
+    public void setIdProduct(String idProduct) {
         this.idProduct = idProduct;
     }
 
@@ -75,11 +75,10 @@ public class DetailOrder extends RealmObject {
     public String toString() {
         return "DetailOrder{" +
                 "idDetailCart='" + idDetailCart + '\'' +
-                ", idOrder=" + idOrder +
-                ", product=" + idProduct +
+                ", idOrder='" + idOrder + '\'' +
+                ", idProduct='" + idProduct + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
     }
-
 }

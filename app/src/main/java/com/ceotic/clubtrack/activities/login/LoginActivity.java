@@ -1,29 +1,16 @@
 package com.ceotic.clubtrack.activities.login;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ceotic.clubtrack.activities.registry.MapsActivity;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
-import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
-import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.User;
 
@@ -32,12 +19,12 @@ import io.realm.RealmResults;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnLogin, btnRegisUser, btnLosePassword;
-    EditText edtUser, edtPassword;
-    TextView txvRecoverPass;
-
-    Realm realm;
-    AppControl appControl;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private Button btnLogin, btnRegisUser, btnLosePassword;
+    private EditText edtUser, edtPassword;
+    private TextView txvRecoverPass;
+    private Realm realm;
+    private AppControl appControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +44,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegisUser.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         txvRecoverPass.setOnClickListener(this);
-
 
     }
 
@@ -80,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .findAll();
         //endregion
 
-
         switch (v.getId()) {
             case R.id.btn_login:
                 if (findUser.isEmpty()) {
@@ -100,11 +85,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(goMenu);
                 }
 
-
                 break;
             case R.id.btn_login_regis_user:
-                Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
-                //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+                //Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
+                Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+               // Intent goRegistry = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(goRegistry);
                 break;
             case R.id.btn_lose_pass:

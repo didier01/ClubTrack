@@ -26,8 +26,8 @@ public class AppControl {
 
     public String currentActivity = "currentActivity";
     Realm realm;
-    ProductType productType;
-    DetailOrder detailOrder;
+    private ProductType productType;
+    private DetailOrder detailOrder;
     private Context context;
     private boolean init = false;
 
@@ -40,7 +40,6 @@ public class AppControl {
     public AppControl() {
     }
     //endregion
-
 
     public interface InitComplete {
         public void initComplete(boolean result);

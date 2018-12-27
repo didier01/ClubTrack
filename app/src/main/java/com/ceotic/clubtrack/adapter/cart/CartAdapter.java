@@ -1,8 +1,10 @@
 package com.ceotic.clubtrack.adapter.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.DetailOrder;
@@ -28,23 +31,19 @@ import io.realm.RealmResults;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> implements View.OnClickListener {
 
-    List<DetailOrder> list;
-
-    Product product;
-
-    Context context;
-    AppControl appControl;
-    Realm realm;
-
+    private static final String TAG = CartAdapter.class.getSimpleName();
+    private List<DetailOrder> list;
+    private Product product;
+    private Context context;
+    private AppControl appControl;
+    private Realm realm;
     private int quantity;
-    //protected EditText edtQuantity1;
 
     public CartAdapter(List<DetailOrder> list, Context context) {
         realm = Realm.getDefaultInstance();
         appControl = AppControl.getInstance();
         this.list = list;
         this.context = context;
-
     }
 
     @NonNull
@@ -52,23 +51,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
         return new CartViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull final CartViewHolder holder, final int position) {
 
-        final DetailOrder order = list.get(position);
+        final DetailOrder detailOrder = list.get(position);
 
-        product = realm.where(Product.class).equalTo("idProduct", order.getProduct()).findFirst();
+        // Asigna un objeto para  realizar la consulta y actualizar
+        final DetailOrder detailOrder1 = realm.copyFromRealm(realm.where(DetailOrder.class)
+                .equalTo("idDetailCart", list.get(position).getIdDetailCart())
+                .findFirst());
+
+        //region asigna los datos del producto
+        product = realm.where(Product.class).equalTo("idProduct", detailOrder.getIdProduct()).findFirst();
 
         holder.imvCartMenu.setImageResource(product.getImageProduct());
         holder.tvNameCartProduct.setText(product.getNameProduct());
-        holder.edtQuantity.setText("" + order.getQuantity());
-
+        holder.edtQuantity.setText("" + detailOrder.getQuantity());
+        //endregion
 
         //region Add/Remove
-        quantity = order.getQuantity();
+        quantity = detailOrder.getQuantity();
         holder.imvLess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,63 +95,67 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
         //endregion
 
+        //region Actualiza Cantidad del producto
         holder.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                RealmResults<DetailOrder> orders = realm.where(DetailOrder.class)
-                        .equalTo("idDetailCart", order.getIdDetailCart())
-                        .findAll();
-
-                orders.size();
-
-                orders.addChangeListener(new RealmChangeListener<RealmResults<DetailOrder>>() {
-                    @Override
-                    public void onChange(RealmResults<DetailOrder> detailOrders) {
-
-                       /* int quant = Integer.parseInt(holder.edtQuantity.getText().toString());
-                        order.setQuantity(quant);
-                        realm.insertOrUpdate(order);*/
-                    }
-                });
-
                 realm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        order.setQuantity(Integer.parseInt(holder.edtQuantity.getText().toString()));
-                        realm.insertOrUpdate(order);
+
+                        detailOrder1.setQuantity(Integer.parseInt(holder.edtQuantity.getText().toString()));
+                        realm.copyToRealmOrUpdate(detailOrder1);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
                     public void onSuccess() {
 
-                        Toast.makeText(context, "Actualizo con exito" + quantity, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Cantidad actualizada", Toast.LENGTH_SHORT).show();
                     }
                 }, new Realm.Transaction.OnError() {
                     @Override
                     public void onError(Throwable error) {
-                        Toast.makeText(context, "No Actualizo " + quantity, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "No Actualizo", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onError: ");
+                        error.printStackTrace();
                     }
                 });
             }
-        });
+        }); //endregion
 
+        //region Borrar Producto de la lista
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+
+            //region Borrar Producto
+            public void deleteProduct() {
+                try {
+                    realm.beginTransaction();
+                    detailOrder.deleteFromRealm();
+                    realm.commitTransaction();
+
+                    Toast.makeText(context, "Registro eliminado", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(context, "Registro no eliminado", Toast.LENGTH_SHORT).show();
+                }
+
+            }//endregion
+
             @Override
             public void onClick(View v) {
 
+                deleteProduct();
+                notifyDataSetChanged();
+                if (list.size() == 0) {
 
-                /// el codigo si sirve
-                /*realm.beginTransaction();
-                DetailOrder deleteOne = realm.where(DetailOrder.class)
-                        .equalTo("idDetailCart", order.getIdDetailCart())
-                        .findFirst();
-                deleteOne.deleteFromRealm();
-                realm.commitTransaction();*/
-
+                    Toast.makeText(context, "Lista vacia", Toast.LENGTH_SHORT).show();
+                    Intent goMenu = new Intent(context, ShopActivity.class);
+                    goMenu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(goMenu);
+                    Log.e(TAG, "Lista vacia, Se cambio el estado de la orden");
+                }
             }
-        });
-
+        });//endregion de
 
     }
 
@@ -160,7 +168,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onClick(View v) {
 
     }
-
 
     public class CartViewHolder extends RecyclerView.ViewHolder {
 
