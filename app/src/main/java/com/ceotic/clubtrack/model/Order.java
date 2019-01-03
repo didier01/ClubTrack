@@ -1,11 +1,7 @@
 package com.ceotic.clubtrack.model;
 
-import com.ceotic.clubtrack.util.Catalog;
-
 import io.realm.RealmObject;
-import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
-import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 
 public class Order extends RealmObject {
@@ -15,7 +11,7 @@ public class Order extends RealmObject {
 
 /*
     @Ignore
-    public static final int STATE = Catalog.CREATED; // para crear
+    public static final int STATE = Constants.CREATED; // para crear
 */
 
     @Ignore

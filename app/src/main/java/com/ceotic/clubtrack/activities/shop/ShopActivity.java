@@ -15,7 +15,7 @@ import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
 import com.ceotic.clubtrack.model.ProductType;
-import com.ceotic.clubtrack.util.Catalog;
+import com.ceotic.clubtrack.util.Constants;
 import com.ceotic.clubtrack.util.MenuActionBar;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ShopActivity extends MenuActionBar {
 
 
         final ProductType type1 = realm.where(ProductType.class)
-                .equalTo("nameTypeProduct",Catalog.NAME)
+                .equalTo("nameTypeProduct",Constants.NAME)
                 .findFirst();
 
         //region Crea objeto de Orden para hacer consulta
@@ -70,7 +70,7 @@ public class ShopActivity extends MenuActionBar {
         addRecycler(type1);
         productAdapter.notifyDataSetChanged();
 
-        getSupportActionBar().setTitle(Catalog.NAME);
+        getSupportActionBar().setTitle(Constants.NAME);
 
     }
 

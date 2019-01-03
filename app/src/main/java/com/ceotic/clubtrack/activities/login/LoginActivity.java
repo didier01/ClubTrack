@@ -3,6 +3,7 @@ package com.ceotic.clubtrack.activities.login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
+import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
+import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.User;
 
@@ -64,32 +67,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RealmResults<User> findPass = realm.where(User.class)
                 .equalTo("password", password)
                 .findAll();
+
+        final User currentUser = realm.where(User.class)
+                .equalTo("user", nameUser)
+                .equalTo("password", password)
+                .findFirst();
         //endregion
 
         switch (v.getId()) {
             case R.id.btn_login:
-                if (findUser.isEmpty()) {
+                if (currentUser == null) {
                     if (nameUser.length() == 0) {
                         edtUser.setError("Campo requerido");
                         return;
-                    }
-                    edtUser.setError("Usuario incorrecto");
-                } else if (findPass.isEmpty()) {
-                    if (password.length() == 0) {
+                    } else if (password.length() == 0) {
                         edtPassword.setError("Campo requerido");
                         return;
                     }
-                    edtPassword.setError("contraseña incorrecto");
+                    edtUser.setError("Usuario y/o incorrecto");
                 } else {
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Log.e(TAG, "se logeo");
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.e(TAG, "no se logeo");
+                        }
+                    });
+
+                    appControl.currentUser = currentUser;
+                    //appControl.islogged = true;
                     Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(goMenu);
                 }
-
                 break;
             case R.id.btn_login_regis_user:
-                //Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
-                Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
-               // Intent goRegistry = new Intent(getApplicationContext(), MapsActivity.class);
+                Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
+                //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 startActivity(goRegistry);
                 break;
             case R.id.btn_lose_pass:

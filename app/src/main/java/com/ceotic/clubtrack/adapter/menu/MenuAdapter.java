@@ -1,31 +1,26 @@
 package com.ceotic.clubtrack.adapter.menu;
 
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
-import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.ProductType;
-import com.ceotic.clubtrack.util.Catalog;
+import com.ceotic.clubtrack.util.Constants;
 
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
 
@@ -61,7 +56,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             @Override
             public void onClick(View v) {
                 String name = productType.getNameTypeProduct();
-                Catalog.NAME = productType.getNameTypeProduct();
+                Constants.NAME = productType.getNameTypeProduct();
 
                 Log.e(TAG,"Name type "+ name);
                 Toast.makeText(v.getContext(), ""+ name , Toast.LENGTH_SHORT).show();

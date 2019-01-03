@@ -16,18 +16,15 @@ public class LocationPlace extends RealmObject {
     private String idLocation;
 
     private String idUser;
-
-
     private String address;
-    private String urlAddress;
-    private int typeAddress;
+    private String typeAddress;
     private double latitude;
     private double longitude;
 
-    public LocationPlace(String address, String urlAddress, int typeAddress, double latitude, double longitude) {
+    public LocationPlace(String idUser, String address, String typeAddress, double latitude, double longitude) {
         this.idLocation = UUID.randomUUID().toString();
+        this.idUser = idUser;
         this.address = address;
-        this.urlAddress = urlAddress;
         this.typeAddress = typeAddress;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -60,19 +57,11 @@ public class LocationPlace extends RealmObject {
         this.address = address;
     }
 
-    public String getUrlAddress() {
-        return urlAddress;
-    }
-
-    public void setUrlAddress(String urlAddress) {
-        this.urlAddress = urlAddress;
-    }
-
-    public int getTypeAddress() {
+    public String gettypeAddress() {
         return typeAddress;
     }
 
-    public void setTypeAddress(int typeAddress) {
+    public void settypeAddress(String typeAddress) {
         this.typeAddress = typeAddress;
     }
 
@@ -98,8 +87,7 @@ public class LocationPlace extends RealmObject {
                 "idLocation='" + idLocation + '\'' +
                 ", idUser='" + idUser + '\'' +
                 ", address='" + address + '\'' +
-                ", urlAddress='" + urlAddress + '\'' +
-                ", typeAddress=" + typeAddress +
+                ", typeAddress='" + typeAddress + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';

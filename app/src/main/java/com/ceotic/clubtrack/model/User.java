@@ -6,14 +6,13 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class User extends RealmObject{
+public class User extends RealmObject {
 
     @Ignore
     private final String TAG = User.class.toString();
 
     @PrimaryKey
-    private String idUser ;
-    private String idLocationUser;
+    private String idUser;
 
     private String dniUser;
     private String nameUser;
@@ -27,7 +26,7 @@ public class User extends RealmObject{
 
     // Contructores lleons y vacios
 
-    public User( String dniUser, String nameUser, String email, String cellphone, String telephone, String telephone2, String user, String password) {
+    public User(String dniUser, String nameUser, String email, String cellphone, String telephone, String telephone2, String user, String password) {
 
         this.idUser = UUID.randomUUID().toString();
         this.dniUser = dniUser;
@@ -51,14 +50,6 @@ public class User extends RealmObject{
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
-    }
-
-    public String getIdLocationUser() {
-        return idLocationUser;
-    }
-
-    public void setIdLocationUser(String idLocationUser) {
-        this.idLocationUser = idLocationUser;
     }
 
     public String getDniUser() {
@@ -129,7 +120,6 @@ public class User extends RealmObject{
     public String toString() {
         return "User{" +
                 "idUser='" + idUser + '\'' +
-                ", idLocationUser='" + idLocationUser + '\'' +
                 ", dniUser='" + dniUser + '\'' +
                 ", nameUser='" + nameUser + '\'' +
                 ", email='" + email + '\'' +

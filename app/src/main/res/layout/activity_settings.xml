@@ -28,7 +28,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvNameSettings"
+            android:id="@+id/edt_name_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvDniSettings"
+            android:id="@+id/edt_dni_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -75,7 +75,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvPhoneSettings"
+            android:id="@+id/edt_phone_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,7 +98,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvCelSettings"
+            android:id="@+id/edt_cell_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -121,7 +121,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvEmailSettings"
+            android:id="@+id/edt_email_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -144,7 +144,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvUserSettings"
+            android:id="@+id/edt_username_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -167,7 +167,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:id="@+id/tvPassSettings"
+            android:id="@+id/edt_pass_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -176,7 +176,7 @@
             android:textSize="@dimen/text_size" />
     </LinearLayout>
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btn_logout_settings"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -25,6 +25,7 @@ import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.LocationPlace;
 import com.ceotic.clubtrack.model.User;
+import com.ceotic.clubtrack.util.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -59,6 +60,7 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
     private Marker marker;
     private FusedLocationProviderClient mFusedLocationClient;
     private Context context;
+    private User user;
 
 
     @Override
@@ -85,6 +87,18 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
 
         btnSave.setOnClickListener(clicSave);
 
+        //region Crea objeto de Orden para hacer consulta
+        try {
+            user = realm.copyFromRealm(realm.where(User.class)
+                    .equalTo("dniUser", Constants.DNI_USER_LOCATION)
+                    .findFirst());
+
+            Log.e(TAG, "Se asigno el usuario");
+        } catch (Exception e) {
+            Log.e(TAG, "NO se asigno el usuario");
+        }
+        //endregion
+
     }
 
     @Override
@@ -100,15 +114,18 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
             public void execute(Realm bgRealm) {
                 place = bgRealm.createObject(LocationPlace.class, UUID.randomUUID().toString());
                 place.setAddress(edtAddress.getText().toString().trim());
+                place.setLatitude(latitud);
+                place.setLongitude(longitud);
+                place.setIdUser(user.getIdUser());
 
                 if (rbtnHome.isChecked() == true) {
-                    place.setUrlAddress("HOME");
+                    place.settypeAddress("HOME");
 
                 } else if (rbtnOffice.isChecked() == true) {
-                    place.setUrlAddress("OFFICE");
+                    place.settypeAddress("OFFICE");
 
                 } else if (rbtnOther.isChecked() == true) {
-                    place.setUrlAddress("OTHER");
+                    place.settypeAddress("OTHER");
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -116,7 +133,7 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
             public void onSuccess() {
                 RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
                 Toast.makeText(RegistryLocationActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "insertado " + "\n" + places);
+                Log.e(TAG, "insertado " + '\n' + places);
 
                 Intent goMenu = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(goMenu);

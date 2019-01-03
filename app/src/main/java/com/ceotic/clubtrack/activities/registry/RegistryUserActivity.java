@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
-import com.ceotic.clubtrack.activities.login.LoginActivity;
 import com.ceotic.clubtrack.model.User;
+import com.ceotic.clubtrack.util.Constants;
 
 import java.util.UUID;
 
@@ -25,7 +25,7 @@ public class RegistryUserActivity extends AppCompatActivity {
     private Button btnNext;
     private EditText edtName, edtDni, edtEmail, edtCel, edtPhone1, edtPhone2, edtUser, edtPassword, edtConfirmPass;
     private Realm realm;
-    private User user;
+    private User user, userSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,20 +119,20 @@ public class RegistryUserActivity extends AppCompatActivity {
                 return;
             } else {
 
-                Log.d(TAG, "todo OK con el registro");
-                saveDataUser();
+                saveData();
             }
             //endregion
         }
     };
     //endregion
 
-    private void saveDataUser() {
+
+    private void saveData() {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public void execute(Realm bgRealm) {
+            public void execute(Realm realm) {
 
-                user = bgRealm.createObject(User.class, UUID.randomUUID().toString());
+                user = realm.createObject(User.class, UUID.randomUUID().toString());
 
                 user.setDniUser(edtDni.getText().toString().trim());
                 user.setNameUser(edtName.getText().toString().trim());
@@ -140,7 +140,54 @@ public class RegistryUserActivity extends AppCompatActivity {
                 user.setTelephone(edtPhone1.getText().toString().trim());
                 user.setTelephone2(edtPhone2.getText().toString().trim());
                 user.setEmail(edtEmail.getText().toString().trim());
+                user.setUser(edtUser.getText().toString().trim());
+                user.setPassword(edtPassword.getText().toString().trim());
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                RealmResults<User> users = realm.where(User.class).findAll();
+                Toast.makeText(RegistryUserActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "insertado" + users+'\n');
 
+                Constants.DNI_USER_LOCATION = edtDni.getText().toString();
+
+                String idUser = edtDni.getText().toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("myid", idUser);
+
+                Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
+                goRegisLocation.putExtras(bundle);
+                startActivity(goRegisLocation);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Toast.makeText(RegistryUserActivity.this, "No se registro el usuario", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Noooooo insertadooooooo");
+            }
+        });
+    }
+
+    //region Guardar datos usuario
+    private void saveDataUser() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                userSave = realm.copyFromRealm(realm.where(User.class)
+                        .equalTo("dniUser", edtDni.getText().toString().trim())
+                        .equalTo("user", edtUser.getText().toString().trim())
+                        .findFirst());
+
+                user = realm.createObject(User.class, UUID.randomUUID().toString());
+
+                user.setDniUser(edtDni.getText().toString().trim());
+                user.setNameUser(edtName.getText().toString().trim());
+                user.setCellphone(edtCel.getText().toString().trim());
+                user.setTelephone(edtPhone1.getText().toString().trim());
+                user.setTelephone2(edtPhone2.getText().toString().trim());
+                user.setEmail(edtEmail.getText().toString().trim());
                 user.setUser(edtUser.getText().toString().trim());
                 user.setPassword(edtPassword.getText().toString().trim());
 
@@ -150,7 +197,7 @@ public class RegistryUserActivity extends AppCompatActivity {
             public void onSuccess() {
                 RealmResults<User> users = realm.where(User.class).findAll();
                 Toast.makeText(RegistryUserActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "insertado" + users);
+                Log.e(TAG, "insertado" + users+'\n');
 
                 String idUser = edtDni.getText().toString();
                 Bundle bundle = new Bundle();
@@ -158,15 +205,15 @@ public class RegistryUserActivity extends AppCompatActivity {
 
                 Intent goRegisLocation = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 goRegisLocation.putExtras(bundle);
-                startActivity(goRegisLocation);
+                //startActivity(goRegisLocation);
 
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(RegistryUserActivity.this, "No se registro el usuario", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Noooooo insertadooooooo");
+                Log.e(TAG, "Noooooo insertadooooooo");
             }
         });
-    }
+    }//endregion
 }

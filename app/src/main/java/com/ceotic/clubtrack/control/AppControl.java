@@ -30,6 +30,7 @@ public class AppControl {
     private DetailOrder detailOrder;
     private Context context;
     private boolean init = false;
+    public User currentUser;
 
 
     //region patron singleton
@@ -90,25 +91,34 @@ public class AppControl {
 
                 //endregion
 
+                //region insertar un User
+                if (realm.where(User.class).findAll().isEmpty()) {
+                    User User = new User("Didier", "1061", "didier@gmail.com", "3128216677", "839", "338", "didier", "1234");
+                    User User1 = new User("enrique", "1062", "enrique@gmail.com", "3052223357", "839", "338", "kike", "1234");
+                    User User2 = new User("Edwin", "1062", "edwingmail.com", "3052223357", "839", "338", "edwin", "1234");
+                    realm.copyToRealm(User);
+                    realm.copyToRealm(User1);
+                    realm.copyToRealm(User2);
+                }//endregion
+
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.e("AppControl Menu", "sii inserto");
+                Log.e(TAG, "sii inserto");
                 RealmResults<ProductType> findTypes = realm.where(ProductType.class).findAll();
-                Log.e("AppControl No es Error", "Cantidad de tipos de productod : " + findTypes.size());
+                Log.e(TAG, "Cantidad de tipos de productod : " + findTypes.size());
 
                 RealmResults<User> findUsers = realm.where(User.class).findAll();
-                Log.e("AppControl No es Error", "Cantidad de usuarios : " + findUsers.size());
+                Log.e(TAG, "Cantidad de Users : " + findUsers + "\n \n");
 
                 RealmResults<Product> findPro = realm.where(Product.class).findAll();
-                Log.e("AppControl No es Error", "Cantidad de productos: " + findPro.size());
+                Log.e(TAG, "Cantidad de productos: " + findPro.size());
 
                 RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
-                Log.e("AppControl No es Error", "lugares: " + places);
+                Log.e(TAG, "lugares: " + places);
 
                 listener.initComplete(true);
-
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -120,9 +130,5 @@ public class AppControl {
             }
         });
         return true;
-
-
     }
-
-
 }
