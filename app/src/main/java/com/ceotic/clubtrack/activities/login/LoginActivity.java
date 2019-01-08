@@ -15,6 +15,7 @@ import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
 import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.control.AppControl;
+import com.ceotic.clubtrack.model.Configuration;
 import com.ceotic.clubtrack.model.User;
 
 import io.realm.Realm;
@@ -48,6 +49,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(this);
         txvRecoverPass.setOnClickListener(this);
 
+        if (AppControl.getInstance().isLogged) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
 
@@ -68,10 +73,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .equalTo("password", password)
                 .findAll();
 
-        final User currentUser = realm.where(User.class)
+        final User currentUser = realm.copyFromRealm(realm.where(User.class)
                 .equalTo("user", nameUser)
                 .equalTo("password", password)
-                .findFirst();
+                .findFirst());
         //endregion
 
         switch (v.getId()) {
@@ -89,12 +94,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     realm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
+                            try {
+                                Configuration config = realm.where(Configuration.class)
+                                        .equalTo("key", "isLogged")
+                                        .findFirst();
+                                config.setValue(true);
+                                config.setIdUserLogin(currentUser.getIdUser());
+                            } catch (Exception e) {
+                            }
 
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
                         public void onSuccess() {
-                            Log.e(TAG, "se logeo");
+                            Configuration config = realm.where(Configuration.class)
+                                    .equalTo("key", "isLogged")
+                                    .findFirst();
+                            Log.e(TAG, "se logeo" + currentUser.getIdUser());
+                            Log.e(TAG, "se logeo" + config.getIdUserLogin());
                         }
                     }, new Realm.Transaction.OnError() {
                         @Override

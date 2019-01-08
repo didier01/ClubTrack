@@ -43,10 +43,16 @@ public class SplashActivity extends AppCompatActivity implements AppControl.Init
         TimerTask tarea2 = new TimerTask() {
             @Override
             public void run() {
-                Intent goMenu = new Intent(getApplicationContext(), LoginActivity.class);
-                //Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(goMenu);
-                Log.e(TAG,"Si paso el splash");
+                if (AppControl.getInstance().isLogged) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    SplashActivity.this.finish();
+                } else {
+                    Intent goMenu = new Intent(getApplicationContext(), LoginActivity.class);
+                    goMenu.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(goMenu);
+                    SplashActivity.this.finish();
+                    Log.e(TAG, "Si paso el splash");
+                }
             }
         };
 

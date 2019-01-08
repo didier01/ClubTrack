@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.model.Configuration;
 import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.LocationPlace;
 import com.ceotic.clubtrack.model.Order;
@@ -31,6 +32,7 @@ public class AppControl {
     private Context context;
     private boolean init = false;
     public User currentUser;
+    public boolean isLogged = false;
 
 
     //region patron singleton
@@ -100,6 +102,35 @@ public class AppControl {
                     realm.copyToRealm(User1);
                     realm.copyToRealm(User2);
                 }//endregion
+
+                //region Permitir logeo cuando sale de la app
+                Configuration config = realm.where(Configuration.class)
+                        .equalTo("key", "isLogged")
+                        .findFirst();
+                try {
+
+                    if (config != null) {
+                        Log.d(TAG, "Configuration isLogged  founded = " + config.getValue());
+                        isLogged = config.getValue();
+                    } else {
+                        Log.d(TAG, "Configuration isLogged not founded");
+                        config = new Configuration("isLogged", false);
+                        realm.copyToRealm(config);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "No cambio estado isLogged");
+                }
+
+                try {
+                    User user = realm.copyFromRealm(realm.where(User.class)
+                            .equalTo("idUser", config.getIdUserLogin())
+                            .findFirst());
+                    currentUser = user;
+                    Log.e(TAG, "Se asigno usuario");
+                } catch (Exception e) {
+                    Log.e(TAG, "No Se asigno usuario");
+                }
+                //endregion
 
             }
         }, new Realm.Transaction.OnSuccess() {
