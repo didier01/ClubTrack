@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 public class LocationPlace extends RealmObject {
 
     @Ignore
-    private final String TAG = User.class.toString();
+    private final String TAG = LocationPlace.class.toString();
 
     @PrimaryKey
     private String idLocation;

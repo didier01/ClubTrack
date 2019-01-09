@@ -59,76 +59,72 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        //region variables obtenidas
-        final String nameUser = edtUser.getText().toString().trim();
-        final String password = edtPassword.getText().toString().trim();
-        //endregion
-
-        //region busquedas
-        RealmResults<User> findUser = realm.where(User.class)
-                .equalTo("user", nameUser)
-                .findAll();
-
-        RealmResults<User> findPass = realm.where(User.class)
-                .equalTo("password", password)
-                .findAll();
-
-        final User currentUser = realm.copyFromRealm(realm.where(User.class)
-                .equalTo("user", nameUser)
-                .equalTo("password", password)
-                .findFirst());
-        //endregion
-
         switch (v.getId()) {
             case R.id.btn_login:
-                if (currentUser == null) {
-                    if (nameUser.length() == 0) {
-                        edtUser.setError("Campo requerido");
-                        return;
-                    } else if (password.length() == 0) {
-                        edtPassword.setError("Campo requerido");
-                        return;
-                    }
-                    edtUser.setError("Usuario y/o incorrecto");
-                } else {
-                    realm.executeTransactionAsync(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            try {
+                try {
+                    //region variables obtenidas
+                    final String nameUser = edtUser.getText().toString().trim();
+                    final String password = edtPassword.getText().toString().trim();
+                    //endregion
+
+                    final User currentUser = realm.copyFromRealm(realm.where(User.class)
+                            .equalTo("user", nameUser)
+                            .equalTo("password", password)
+                            .findFirst());
+
+                    //region Condicion si estan vacios los edit text
+                    if (currentUser == null) {
+                        if (nameUser.length() == 0) {
+                            edtUser.setError("Campo requerido");
+                            return;
+                        } else if (password.length() == 0) {
+                            edtPassword.setError("Campo requerido");
+                            return;
+                        }
+                        edtUser.setError("Usuario y/o incorrecto");
+                    } //endregion
+
+                    //region si no estan vacios procede a realizar persistencia del usuario logeado
+                    else {
+                        realm.executeTransactionAsync(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    Configuration config = realm.where(Configuration.class)
+                                            .equalTo("key", "isLogged")
+                                            .findFirst();
+                                    config.setValue(true);
+                                    config.setIdUserLogin(currentUser.getIdUser());
+                                } catch (Exception e) {
+                                }
+
+                            }
+                        }, new Realm.Transaction.OnSuccess() {
+                            @Override
+                            public void onSuccess() {
                                 Configuration config = realm.where(Configuration.class)
                                         .equalTo("key", "isLogged")
                                         .findFirst();
-                                config.setValue(true);
-                                config.setIdUserLogin(currentUser.getIdUser());
-                            } catch (Exception e) {
+                                Log.e(TAG, "se logeo" + currentUser.getIdUser());
+                                Log.e(TAG, "se logeo" + config.getIdUserLogin());
                             }
+                        }, new Realm.Transaction.OnError() {
+                            @Override
+                            public void onError(Throwable error) {
+                                Log.e(TAG, "no se logeo");
+                            }
+                        });
+                        appControl.currentUser = currentUser;
+                        Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(goMenu);
+                    }//endregion
 
-                        }
-                    }, new Realm.Transaction.OnSuccess() {
-                        @Override
-                        public void onSuccess() {
-                            Configuration config = realm.where(Configuration.class)
-                                    .equalTo("key", "isLogged")
-                                    .findFirst();
-                            Log.e(TAG, "se logeo" + currentUser.getIdUser());
-                            Log.e(TAG, "se logeo" + config.getIdUserLogin());
-                        }
-                    }, new Realm.Transaction.OnError() {
-                        @Override
-                        public void onError(Throwable error) {
-                            Log.e(TAG, "no se logeo");
-                        }
-                    });
-
-                    appControl.currentUser = currentUser;
-                    //appControl.islogged = true;
-                    Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(goMenu);
+                } catch (Exception e) {
+                    Log.e(TAG,"no se pudo realizar el loggeo");
                 }
                 break;
             case R.id.btn_login_regis_user:
                 Intent goRegistry = new Intent(getApplicationContext(), RegistryUserActivity.class);
-                //Intent goRegistry = new Intent(getApplicationContext(), RegistryLocationActivity.class);
                 startActivity(goRegistry);
                 break;
             case R.id.btn_lose_pass:

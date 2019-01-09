@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
@@ -69,6 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.imvCartMenu.setImageResource(product.getImageProduct());
         holder.tvNameCartProduct.setText(product.getNameProduct());
         holder.edtQuantity.setText("" + detailOrder.getQuantity());
+        holder.tvItemPrice.setText("$"+detailOrder.getPrice());
         //endregion
 
         //region Add/Remove
@@ -76,26 +78,79 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.imvLess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //region Disminuir cantidad
                 quantity = Integer.parseInt(holder.edtQuantity.getText().toString()) - 1;
-
                 if (quantity < 1) {
                     quantity = 1;
                     holder.edtQuantity.setText(quantity + "");
                 } else {
                     holder.edtQuantity.setText(quantity + "");
-                }
+                }//endregion
+
+                //region Actualizar cantidad
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+                        detailOrder1.setQuantity(Integer.parseInt(holder.edtQuantity.getText().toString()));
+                        realm.copyToRealmOrUpdate(detailOrder1);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e(TAG, "Item actualizado ");
+                        Intent intent = new Intent(context, OrderActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        context.startActivity(intent);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Log.e(TAG, "Item no actualizado ");
+                        error.printStackTrace();
+                    }
+                });
+                //endregion
             }
         });
         holder.imvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //region Aumentar
                 quantity = Integer.parseInt(holder.edtQuantity.getText().toString()) + 1;
                 holder.edtQuantity.setText(quantity + "");
+                //endregion
+
+                //region Actualizar cantidad
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+                        detailOrder1.setQuantity(Integer.parseInt(holder.edtQuantity.getText().toString()));
+                        realm.copyToRealmOrUpdate(detailOrder1);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e(TAG, "Item actualizado ");
+                        Intent intent = new Intent(context, OrderActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        context.startActivity(intent);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Log.e(TAG, "Item no actualizado ");
+                        error.printStackTrace();
+                    }
+                });
+                //endregion
             }
         });
         //endregion
 
         //region Actualiza Cantidad del producto
+        /*
         holder.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +177,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     }
                 });
             }
-        }); //endregion
+        });*/ //endregion
 
         //region Borrar Producto de la lista
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +188,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     realm.beginTransaction();
                     detailOrder.deleteFromRealm();
                     realm.commitTransaction();
+                    Intent intent = new Intent(context, OrderActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    context.startActivity(intent);
 
                     Toast.makeText(context, "Registro eliminado", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
@@ -172,7 +230,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public class CartViewHolder extends RecyclerView.ViewHolder {
 
         protected ImageView imvCartMenu, imvAdd, imvLess;
-        protected TextView tvNameCartProduct;
+        protected TextView tvNameCartProduct, tvItemPrice;
         protected Button btnDelete, btnSave;
         protected EditText edtQuantity;
 
@@ -186,6 +244,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             btnSave = itemView.findViewById(R.id.btn_cart_save);
             btnDelete = itemView.findViewById(R.id.btn_cart_delete);
             edtQuantity = itemView.findViewById(R.id.edt_cart_quantity);
+            tvItemPrice = itemView.findViewById(R.id.tv_cart_item_price);
 
         }
 

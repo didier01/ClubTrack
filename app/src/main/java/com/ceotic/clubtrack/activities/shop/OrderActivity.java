@@ -49,6 +49,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     private Order order;
     Realm realm;
     AppControl appControl;
+    private int price, total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +102,23 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 .findAll();
 
         Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
-        for (DetailOrder order : findTypes) {
+        for (DetailOrder detailOrder : findTypes) {
             //typeList.add(pro);
-            Log.d(TAG, "name: " + order.getIdProduct());
+            Log.d(TAG, "name: " + detailOrder.getIdProduct());
             typeList.addAll(findTypes);
-        }
 
+            //region asignando precio total al actionBar
+            int quant = detailOrder.getQuantity();
+            if (quant > 1) {
+                price = detailOrder.getPrice() * quant;
+                total = total + price;
+            } else {
+                price = detailOrder.getPrice();
+                total = total + price;
+            }
+            //endregion
+        }
+        getSupportActionBar().setTitle("Pedido: $" + total);
         typeList = findTypes;
         orderList = typeList;
         cartAdapter = new CartAdapter(typeList, getApplicationContext());
@@ -124,24 +136,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         //------ oculta el icono del carrito para esta actividad
         MenuItem itemCart = menu.findItem(R.id.action_car);
         itemCart.setVisible(false);
+        MenuItem itemSetting = menu.findItem(R.id.action_settings);
+        itemSetting.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-
-            case R.id.action_settings:
-                Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(goSettings);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
     //endregion
 
     ///region Botones del sistema
@@ -188,7 +186,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         super.onBackPressed();
         goMain();
     }
-
 
 
 }
