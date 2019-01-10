@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.R;
@@ -61,66 +62,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.btn_login:
-                try {
-                    //region variables obtenidas
-                    final String nameUser = edtUser.getText().toString().trim();
-                    final String password = edtPassword.getText().toString().trim();
-                    //endregion
+                //region variables obtenidas
+                final String nameUser = edtUser.getText().toString().trim();
+                final String password = edtPassword.getText().toString().trim();
+                //endregion
 
-                    final User currentUser = realm.copyFromRealm(realm.where(User.class)
-                            .equalTo("user", nameUser)
-                            .equalTo("password", password)
-                            .findFirst());
+                if (nameUser.length() == 0) {
+                    edtUser.setError("Campo requerido");
+                    return;
+                } else if (password.length() == 0) {
+                    edtPassword.setError("Campo requerido");
+                    return;
+                } else {
+                    try {
+                        final User currentUser = realm.copyFromRealm(realm.where(User.class)
+                                .equalTo("user", nameUser)
+                                .equalTo("password", password)
+                                .findFirst());
 
-                    //region Condicion si estan vacios los edit text
-                    if (currentUser == null) {
-                        if (nameUser.length() == 0) {
-                            edtUser.setError("Campo requerido");
-                            return;
-                        } else if (password.length() == 0) {
-                            edtPassword.setError("Campo requerido");
-                            return;
-                        }
-                        edtUser.setError("Usuario y/o incorrecto");
-                    } //endregion
+                        if (currentUser != null) {
+                            realm.executeTransactionAsync(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
 
-                    //region si no estan vacios procede a realizar persistencia del usuario logeado
-                    else {
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                try {
+                                    try {
+                                        Configuration config = realm.where(Configuration.class)
+                                                .equalTo("key", "isLogged")
+                                                .findFirst();
+                                        config.setValue(true);
+                                        config.setIdUserLogin(currentUser.getIdUser());
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }, new Realm.Transaction.OnSuccess() {
+                                @Override
+                                public void onSuccess() {
                                     Configuration config = realm.where(Configuration.class)
                                             .equalTo("key", "isLogged")
                                             .findFirst();
-                                    config.setValue(true);
-                                    config.setIdUserLogin(currentUser.getIdUser());
-                                } catch (Exception e) {
+                                    Log.e(TAG, "se logeo" + currentUser.getIdUser());
+                                    Log.e(TAG, "se logeo" + config.getIdUserLogin());
                                 }
-
-                            }
-                        }, new Realm.Transaction.OnSuccess() {
-                            @Override
-                            public void onSuccess() {
-                                Configuration config = realm.where(Configuration.class)
-                                        .equalTo("key", "isLogged")
-                                        .findFirst();
-                                Log.e(TAG, "se logeo" + currentUser.getIdUser());
-                                Log.e(TAG, "se logeo" + config.getIdUserLogin());
-                            }
-                        }, new Realm.Transaction.OnError() {
-                            @Override
-                            public void onError(Throwable error) {
-                                Log.e(TAG, "no se logeo");
-                            }
-                        });
-                        appControl.currentUser = currentUser;
-                        Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(goMenu);
-                    }//endregion
-
-                } catch (Exception e) {
-                    Log.e(TAG,"no se pudo realizar el loggeo");
+                            }, new Realm.Transaction.OnError() {
+                                @Override
+                                public void onError(Throwable error) {
+                                    Log.e(TAG, "no se logeo");
+                                }
+                            });
+                            appControl.currentUser = currentUser;
+                            Intent goMenu = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(goMenu);
+                            finish();
+                        } else {
+                            edtUser.setError("");
+                        }
+                    }catch (Exception e){
+                        edtPassword.getText().clear();
+                        edtUser.getText().clear();
+                        edtUser.setError("");
+                        edtPassword.setError("");
+                        Toast.makeText(LoginActivity.this, "Usuario y/o contraseña incorrecto", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.btn_login_regis_user:
