@@ -89,40 +89,40 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         try {
             order = realm.copyFromRealm(realm.where(Order.class)
                     .equalTo("status", Order.CREATED)
+                    .equalTo("idUser", appControl.currentUser.getIdUser())
                     .findFirst());
+
+            List<DetailOrder> typeList = new ArrayList<>();
+            RealmResults<DetailOrder> findTypes = realm.where(DetailOrder.class)
+                    .equalTo("idOrder", order.getIdCart())
+                    .findAll();
+
+            Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
+            for (DetailOrder detailOrder : findTypes) {
+                //typeList.add(pro);
+                Log.d(TAG, "name: " + detailOrder.getIdProduct());
+                typeList.addAll(findTypes);
+
+                //region asignando precio total al actionBar
+                int quant = detailOrder.getQuantity();
+                if (quant > 1) {
+                    price = detailOrder.getPrice() * quant;
+                    total = total + price;
+                } else {
+                    price = detailOrder.getPrice();
+                    total = total + price;
+                }
+                //endregion
+            }
+            getSupportActionBar().setTitle("Pedido: $" + total);
+            typeList = findTypes;
+            orderList = typeList;
+            cartAdapter = new CartAdapter(typeList, getApplicationContext());
+            recyclerView.setAdapter(cartAdapter);
         } catch (Exception e) {
             Log.e(TAG, "NO se asigno la orden");
         }
-        //-------------------
 
-        List<DetailOrder> typeList = new ArrayList<>();
-
-        RealmResults<DetailOrder> findTypes = realm.where(DetailOrder.class)
-                .equalTo("idOrder", order.getIdCart())
-                .findAll();
-
-        Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
-        for (DetailOrder detailOrder : findTypes) {
-            //typeList.add(pro);
-            Log.d(TAG, "name: " + detailOrder.getIdProduct());
-            typeList.addAll(findTypes);
-
-            //region asignando precio total al actionBar
-            int quant = detailOrder.getQuantity();
-            if (quant > 1) {
-                price = detailOrder.getPrice() * quant;
-                total = total + price;
-            } else {
-                price = detailOrder.getPrice();
-                total = total + price;
-            }
-            //endregion
-        }
-        getSupportActionBar().setTitle("Pedido: $" + total);
-        typeList = findTypes;
-        orderList = typeList;
-        cartAdapter = new CartAdapter(typeList, getApplicationContext());
-        recyclerView.setAdapter(cartAdapter);
     }
     //endregion
 

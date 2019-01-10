@@ -95,12 +95,10 @@ public class AppControl {
 
                 //region insertar un User
                 if (realm.where(User.class).findAll().isEmpty()) {
-                    User User = new User("Didier", "1061", "didier@gmail.com", "3128216677", "839", "338", "didier", "1234");
-                    User User1 = new User("enrique", "1062", "enrique@gmail.com", "3052223357", "839", "338", "kike", "1234");
-                    User User2 = new User("Edwin", "1062", "edwingmail.com", "3052223357", "839", "338", "edwin", "1234");
+                    User User = new User("1061", "Didier", "didier@gmail.com", "3128216677", "839", "338", "didier", "1234");
+                    User User1 = new User("1062", "Enrique", "enrique@gmail.com", "3052223357", "839", "338", "kike", "1234");
                     realm.copyToRealm(User);
                     realm.copyToRealm(User1);
-                    realm.copyToRealm(User2);
                 }//endregion
 
                 //region Permitir logeo cuando sale de la app

@@ -1,5 +1,7 @@
 package com.ceotic.clubtrack.model;
 
+import java.util.UUID;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -23,15 +25,16 @@ public class Order extends RealmObject {
     private String idCart;
 
     private String date;
-    private User seller;
     private String paymentMethod;
+    private String idUser;
     private int status;
 
-    public Order(String idCart, String date, User seller, String paymentMethod) {
-        this.idCart = idCart;
+    public Order(String date, String paymentMethod, String idUser, int status) {
+        this.idCart = UUID.randomUUID().toString();
         this.date = date;
-        this.seller = seller;
         this.paymentMethod = paymentMethod;
+        this.idUser = idUser;
+        this.status = status;
     }
 
     public Order() {
@@ -53,20 +56,20 @@ public class Order extends RealmObject {
         this.date = date;
     }
 
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
     public String getPaymentMethod() {
         return paymentMethod;
     }
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public int getStatus() {
@@ -78,13 +81,12 @@ public class Order extends RealmObject {
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Order{" +
                 "idCart='" + idCart + '\'' +
                 ", date='" + date + '\'' +
-                ", seller=" + seller +
                 ", paymentMethod='" + paymentMethod + '\'' +
+                ", idUser='" + idUser + '\'' +
                 ", status=" + status +
                 '}';
     }

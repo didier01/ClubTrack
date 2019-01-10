@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.activities.shop.OrderActivity;
+import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Order;
 
@@ -28,16 +29,19 @@ public class MenuActionBar extends AppCompatActivity {
 
     private Order order;
     private Realm realm;
+    private AppControl appControl;
     private static final String TAG = MenuActionBar.class.getSimpleName();
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         realm = Realm.getDefaultInstance();
+        appControl = AppControl.getInstance();
 
         //region Crea objeto de Orden para hacer consulta
         try {
             order = realm.copyFromRealm(realm.where(Order.class)
                     .equalTo("status", Order.CREATED)
+                    .equalTo("idUser",appControl.currentUser.getIdUser())
                     .findFirst());
 
             Log.e(TAG, "Se asigno la orden");

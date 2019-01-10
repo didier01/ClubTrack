@@ -22,6 +22,7 @@ import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.registry.RegistryLocationActivity;
 import com.ceotic.clubtrack.activities.registry.RegistryUserActivity;
 import com.ceotic.clubtrack.activities.shop.ShopActivity;
+import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
@@ -55,10 +56,12 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private int quantity = 1;
     private String idproduct = "";
     private Realm realm;
+    private AppControl appControl;
 
     public DialogBuyProduct(@NonNull Context context, String idproduct) {
         super(context);
         realm = Realm.getDefaultInstance();
+        appControl = AppControl.getInstance();
         this.idproduct = idproduct;
         this.product = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
         this.orderSave = orderSave;
@@ -173,14 +176,17 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
 
                 RealmResults<Order> findOrders = realm.where(Order.class)
                         .equalTo("status", Order.CREATED)
+                        .equalTo("idUser",appControl.currentUser.getIdUser())
                         .findAll();
 
                 if (findOrders.isEmpty()) {
                     order = realm.createObject(Order.class, UUID.randomUUID().toString());
                     order.setStatus(Order.CREATED);
+                    order.setIdUser(appControl.currentUser.getIdUser());
                 }
                 orderSave = realm.copyFromRealm(realm.where(Order.class)
                         .equalTo("status", Order.CREATED)
+                        .equalTo("idUser",appControl.currentUser.getIdUser())
                         .findFirst());
             }
         }, new Realm.Transaction.OnSuccess() {
