@@ -118,14 +118,14 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                 place.setLongitude(longitud);
                 place.setIdUser(user.getIdUser());
 
-                if (rbtnHome.isChecked() == true) {
-                    place.settypeAddress("HOME");
+                if (rbtnHome.isChecked()) {
+                    place.settypeAddress(Constants.HOME);
 
-                } else if (rbtnOffice.isChecked() == true) {
-                    place.settypeAddress("OFFICE");
+                } else if (rbtnOffice.isChecked()) {
+                    place.settypeAddress(Constants.OFFICE);
 
-                } else if (rbtnOther.isChecked() == true) {
-                    place.settypeAddress("OTHER");
+                } else if (rbtnOther.isChecked()) {
+                    place.settypeAddress(Constants.OTHER);
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
