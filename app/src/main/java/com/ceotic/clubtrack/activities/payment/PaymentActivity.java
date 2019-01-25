@@ -35,7 +35,6 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-
         realm = Realm.getDefaultInstance();
         appControl = AppControl.getInstance();
 
@@ -71,9 +70,9 @@ public class PaymentActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e(TAG, "no encontro la direccion");
                 }
-                RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
                 RealmResults<User> users = realm.where(User.class).findAll();
                 Log.e(TAG, "Usuarios " + "\n" + users);
+                RealmResults<LocationPlace> places = realm.where(LocationPlace.class).findAll();
                 Log.e(TAG, "Places " + "\n" + places);
 
             }
