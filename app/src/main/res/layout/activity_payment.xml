@@ -61,6 +61,20 @@
             android:text="Modo de pago"
             android:textSize="@dimen/text_size" />
 
+        <Button
+            android:id="@+id/btn_send_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/margin_sides_button"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
+            android:layout_marginRight="@dimen/margin_sides_button"
+            android:layout_marginBottom="@dimen/margin_top_edit_text"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center_horizontal"
+            android:text="Enviar pedido"
+            android:textColor="@color/colorSecondaryText" />
+
     </LinearLayout>
 
 </LinearLayout>

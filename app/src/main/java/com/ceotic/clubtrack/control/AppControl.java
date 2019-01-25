@@ -101,6 +101,16 @@ public class AppControl {
                     realm.copyToRealm(User1);
                 }//endregion
 
+                //region insertar ubicacion
+                if (realm.where(LocationPlace.class).findAll().isEmpty()) {
+                    LocationPlace place = new LocationPlace("1061", "Carrera 28a # 8 a 17", "Hogar", 2.446273, -76.626234);
+                    LocationPlace place1 = new LocationPlace("1062", "VILLA DOCENTE, Calle 26A Norte ## 4-29, Popayán, Cauca", "Oficina", 2.455105, -76.589232);
+
+                    realm.copyToRealm(place);
+                    realm.copyToRealm(place1);
+                }
+                //endregion
+
                 //region Permitir logeo cuando sale de la app
                 Configuration config = realm.where(Configuration.class)
                         .equalTo("key", "isLogged")

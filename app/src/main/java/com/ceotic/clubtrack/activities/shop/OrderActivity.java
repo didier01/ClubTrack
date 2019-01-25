@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
+import com.ceotic.clubtrack.activities.payment.PaymentActivity;
 import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.adapter.cart.CartAdapter;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
@@ -65,6 +66,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
         tvAddMore.setOnClickListener(this);
         tvDeleteAll.setOnClickListener(this);
+        btnOrder.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.recycler_cart);
         GridLayoutManager llm = new GridLayoutManager(getApplicationContext(), 1);
@@ -150,11 +152,15 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_cart_menu_add_more:
                 Intent goMenu = new Intent(OrderActivity.this, MainActivity.class);
                 startActivity(goMenu);
+                finish();
                 break;
             case R.id.tv_cart_menu_empty:
                 deleteAll();
+                finish();
                 break;
             case R.id.btn_cart_order:
+                Intent goPayment= new Intent(OrderActivity.this, PaymentActivity.class);
+                startActivity(goPayment);
                 break;
         }
 
