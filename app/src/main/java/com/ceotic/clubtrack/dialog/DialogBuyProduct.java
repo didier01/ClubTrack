@@ -43,7 +43,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private static final String TAG = DialogBuyProduct.class.getSimpleName();
     private DetailOrder detailOrder;
     private Order order, orderSave;
-    private Product product, productsave;
+    private Product product;
     private ImageView imvImageProduct;
     private ImageView imvRemoveProduct;
     private ImageView imvAddProduct;
@@ -66,7 +66,6 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         this.product = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
         this.orderSave = orderSave;
         init();
-
     }
 
     private void init() {
@@ -176,7 +175,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
 
                 RealmResults<Order> findOrders = realm.where(Order.class)
                         .equalTo("status", Order.CREATED)
-                        .equalTo("idUser",appControl.currentUser.getIdUser())
+                        .equalTo("idUser", appControl.currentUser.getIdUser())
                         .findAll();
 
                 if (findOrders.isEmpty()) {
@@ -186,7 +185,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
                 }
                 orderSave = realm.copyFromRealm(realm.where(Order.class)
                         .equalTo("status", Order.CREATED)
-                        .equalTo("idUser",appControl.currentUser.getIdUser())
+                        .equalTo("idUser", appControl.currentUser.getIdUser())
                         .findFirst());
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -211,17 +210,34 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         realm.executeTransactionAsync(new Realm.Transaction() {
 
             @Override
-            public void execute(Realm bgRealm) {
+            public void execute(Realm realm) {
 
                 // CONSULTO EL ID DEL PRODUCTO Y LO GUARDO EN LA CLASE DETAILORDER
 
-                productsave = bgRealm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
+                Product productSave = realm.where(Product.class).equalTo("idProduct", idproduct).findFirst();
 
-                detailOrder = bgRealm.createObject(DetailOrder.class, UUID.randomUUID().toString());
-                detailOrder.setIdProduct(productsave.getIdProduct());
-                detailOrder.setQuantity(quantity);
-                detailOrder.setPrice(productsave.getPrice());
-                detailOrder.setIdOrder(orderSave.getIdCart());
+                try {
+                    final DetailOrder detailOrder1 = realm.where(DetailOrder.class)
+                            .equalTo("idProduct", idproduct)
+                            .and()
+                            .equalTo("idOrder", orderSave.getIdCart())
+                            .findFirst();
+
+                    if (detailOrder1 != null) {
+                        int quant = detailOrder1.getQuantity() + quantity;
+                        detailOrder1.setQuantity(quant);
+                        realm.copyToRealmOrUpdate(detailOrder1);
+                    } else {
+                        detailOrder = realm.createObject(DetailOrder.class, UUID.randomUUID().toString());
+                        detailOrder.setIdProduct(productSave.getIdProduct());
+                        detailOrder.setQuantity(quantity);
+                        detailOrder.setPrice(productSave.getPrice());
+                        detailOrder.setIdOrder(orderSave.getIdCart());
+                    }
+
+                } catch (Exception e) {
+                    Log.e(TAG, "No inserto");
+                }
 
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -235,6 +251,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
+
                 Toast.makeText(getContext(), "No se guardo en el carro " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Noooooo insertadooooooo");
             }
