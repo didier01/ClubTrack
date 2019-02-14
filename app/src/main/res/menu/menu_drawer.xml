@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Perfíl" />
+        <item
+            android:id="@+id/nav_points"
+            android:title="Puntos" />
+        <item
+            android:id="@+id/nav_addresses"
+            android:title="Direcciones" />
+        <item
+            android:id="@+id/nav_orders"
+            android:title="Mis pedidos" />
+    </group>
+
+    <item android:title="Acerca de">
+        <menu>
+            <item
+                android:id="@+id/nav_contact"
+                android:title="Contactanos" />
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar sesión">
+    </item>
+
+
+</menu>

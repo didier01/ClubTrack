@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.settings.SettingsDrawerActivity"
+            android:label="@string/title_activity_settings_drawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activities.menu.MainActivity"
             android:label="Categorias" />
         <activity
@@ -63,7 +67,7 @@
         <activity
             android:name=".activities.registry.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activities.payment.PaymentActivity"></activity>
+        <activity android:name=".activities.payment.PaymentActivity" />
     </application>
 
 </manifest>

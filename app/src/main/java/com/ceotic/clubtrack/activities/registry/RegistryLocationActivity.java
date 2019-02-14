@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -116,7 +117,7 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
                 place.setAddress(edtAddress.getText().toString().trim());
                 place.setLatitude(latitud);
                 place.setLongitude(longitud);
-                place.setIdUser(user.getIdUser());
+                place.setIdUser(user.getDniUser());
 
                 if (rbtnHome.isChecked()) {
                     place.settypeAddress(Constants.HOME);
@@ -263,7 +264,9 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
     }
 //endregion
 
+
     //region Obtener Direccion del lugar
+    /*
     private String getAddressFromLocation(double latitude, double longitude) {
 
         String address = "";
@@ -287,5 +290,44 @@ public class RegistryLocationActivity extends AppCompatActivity implements OnMap
             Log.e(TAG + " Cuurent location: ", "Cant get address");
         }
         return address;
-    }//endregion
+
+    }*/
+    //endregion
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        String address = "";
+        String cityName = "";
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            Address returnAddress = addresses.get(0);
+            address = addresses.get(0).getAddressLine(0);
+            cityName = addresses.get(0).getLocality();
+            String stateName = addresses.get(0).getAdminArea();
+            //String countryName = addresses.get(0).getAddressLine(2);
+
+           /* StringBuilder stringAddress = new StringBuilder("");
+            for (int i = 0; i <= returnAddress.getMaxAddressLineIndex(); i++) {
+                stringAddress.append(returnAddress.getAddressLine(0)).append("");
+            }
+            address = stringAddress.toString();*/
+            edtAddress.setText(address);
+            //Log.e(TAG + " Cuurent location: ", stringAddress.toString());
+            Log.e(TAG + " Cuurent location: ", address);
+            Log.e(TAG + " Cuurent city: ", cityName);
+            Log.e(TAG + " Cuurent state: ", stateName);
+            //Toast.makeText(context, "Address" + stringAddress.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "city: " + cityName, Toast.LENGTH_SHORT).show();
+
+
+        } catch (Exception e) {
+            Log.e(TAG + " Cuurent location2: ", "Cant get address");
+        }
+        return address;
+
+    }
+
 }

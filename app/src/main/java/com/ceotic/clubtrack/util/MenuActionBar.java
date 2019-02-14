@@ -4,17 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.settings.SettingsActivity;
+import com.ceotic.clubtrack.activities.settings.SettingsDrawerActivity;
 import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.DetailOrder;
@@ -22,8 +21,6 @@ import com.ceotic.clubtrack.model.Order;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-import static com.ceotic.clubtrack.activities.shop.ShopActivity.setBadgeCount;
 
 public class MenuActionBar extends AppCompatActivity {
 
@@ -105,7 +102,8 @@ public class MenuActionBar extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                //Intent goSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent goSettings = new Intent(getApplicationContext(), SettingsDrawerActivity.class);
                 startActivity(goSettings);
                 return true;
             case R.id.action_car:
