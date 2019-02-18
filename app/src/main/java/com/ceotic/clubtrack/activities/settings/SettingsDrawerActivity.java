@@ -1,5 +1,6 @@
 package com.ceotic.clubtrack.activities.settings;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,21 +13,30 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.activities.login.LoginActivity;
+import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.fragments.AddressesFragment;
 import com.ceotic.clubtrack.fragments.ProfileFragment;
+import com.ceotic.clubtrack.model.Configuration;
+
+import io.realm.Realm;
 
 public class SettingsDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ProfileFragment.OnFragmentInteractionListener, AddressesFragment.OnFragmentInteractionListener {
 
+    private static final String TAG = SettingsDrawerActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private AppControl appControl;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,10 @@ public class SettingsDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings_drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        appControl = AppControl.getInstance();
+        appControl.currentActivity = SettingsActivity.class.getSimpleName();
+        realm = Realm.getDefaultInstance();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -44,6 +58,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //region asigno primer fragment por defecto
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction;
         Fragment fragment = new ProfileFragment();
@@ -51,8 +66,10 @@ public class SettingsDrawerActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
         getSupportActionBar().setTitle("Perfíl");
+        //endregion
     }
 
+    //region OnBack
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,7 +78,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
+    }//endregion
 
     //region ActionBar
     @Override
@@ -85,7 +102,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }//endregion
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //region Asignacion de fragments con drawer
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -106,15 +123,17 @@ public class SettingsDrawerActivity extends AppCompatActivity
                 getSupportActionBar().setTitle("" + item.getTitle());
                 break;
             case R.id.nav_logout:
+                logout();
+                finish();
                 break;
             case R.id.nav_orders:
-                getSupportActionBar().setTitle(""+ item.getTitle());
+                getSupportActionBar().setTitle("" + item.getTitle());
                 break;
             case R.id.nav_points:
-                getSupportActionBar().setTitle(""+ item.getTitle());
+                getSupportActionBar().setTitle("" + item.getTitle());
                 break;
             case R.id.nav_contact:
-                getSupportActionBar().setTitle(""+ item.getTitle());
+                getSupportActionBar().setTitle("" + item.getTitle());
                 break;
         }
         if (null != fragment) {
@@ -127,9 +146,44 @@ public class SettingsDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    //endregion
 
+    //region metodo que permite llamar a los fragments
     @Override
     public void onFragmentInteraction(Uri uri) {
+    }//endregion
 
+    //region Metodo de logout, cerrar sesion
+    public void logout() {
+        appControl.isLogged = false;
+        appControl = null;
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                Configuration configuration = realm.where(Configuration.class)
+                        .equalTo("key", "isLogged")
+                        .findFirst();
+                configuration.setValue(false);
+                realm.insertOrUpdate(configuration);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "si cambio ");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                error.printStackTrace();
+                Log.d(TAG, "no  cambio");
+            }
+        });
+
+        Intent goLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(goLogin);
+        finish();
     }
+    //endregion
 }

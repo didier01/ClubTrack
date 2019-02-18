@@ -7,10 +7,36 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_address_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/margin_top_edit_text"
+        android:text="No hay direcciones"
+        android:textSize="@dimen/text_size"
+        android:visibility="gone" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Welcome to Addresses"
-        android:textSize="30sp"
-        android:textColor="#00aaff"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listview_addresses_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></ListView>
+
+        <Button
+            android:id="@+id/btn_add_addresses_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|bottom"
+            android:padding="@dimen/margin_top"
+            android:text="Agregar direccion" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

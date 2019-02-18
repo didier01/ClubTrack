@@ -56,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.btn_logout_settings);
 
+        //region logout
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(goLogin);
                 finish();
             }
-        });
+        });//endregion
+
     }
 }

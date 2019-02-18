@@ -1,107 +1,75 @@
 package com.ceotic.clubtrack.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.adapter.address.AddressAdapter;
+import com.ceotic.clubtrack.control.AppControl;
+import com.ceotic.clubtrack.model.LocationPlace;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddressesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddressesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class AddressesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = AddressesFragment.class.getSimpleName();
+    private Button btnAddLocation;
+    private Realm realm;
+    private AppControl appControl;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public AddressesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddressesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddressesFragment newInstance(String param1, String param2) {
-        AddressesFragment fragment = new AddressesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private ListView listAddress;
+    private AddressAdapter adapter;
+    private List<LocationPlace> listPlaces;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_addresses, container, false);
+        View view = inflater.inflate(R.layout.fragment_addresses, container, false);
+        appControl = AppControl.getInstance();
+        realm = Realm.getDefaultInstance();
+
+        btnAddLocation = view.findViewById(R.id.btn_add_addresses_fragment);
+        listAddress = view.findViewById(R.id.listview_addresses_fragment);
+
+        llenarLista();
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    //region llenar lista
+
+    public void llenarLista() {
+        List<LocationPlace> typeList = new ArrayList<>();
+
+        RealmResults<LocationPlace> findPlaces = realm.where(LocationPlace.class)
+                .equalTo("idUser", appControl.currentUser.getDniUser())
+                .findAll();
+
+        Log.e(TAG, "Cantidad de tipos: " + findPlaces.size());
+        for (LocationPlace loc : findPlaces) {
+            //typeList.add(pro);
+            Log.d(TAG, "name: " + loc.gettypeAddress());
+            typeList.addAll(findPlaces);
         }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        typeList = findPlaces;
+        listPlaces = typeList;
+        adapter = new AddressAdapter(getContext(), typeList);
+        listAddress.setAdapter(adapter);
     }
+    //endregion
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

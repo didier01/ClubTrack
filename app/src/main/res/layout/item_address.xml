@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+            <TextView
+                android:id="@+id/tv_item_address_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/margin_top_edit_text"
+                android:text="hogar"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/tv_item_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_top_edit_text"
+                android:text="Carrera 25"
+                android:textSize="@dimen/text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+            <Button
+                android:id="@+id/btn_item_address_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="editar" />
+
+            <Button
+                android:id="@+id/btn_item_address_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="eliminar" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

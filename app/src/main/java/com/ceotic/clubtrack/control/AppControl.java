@@ -104,10 +104,31 @@ public class AppControl {
                 //region insertar ubicacion
                 if (realm.where(LocationPlace.class).findAll().isEmpty()) {
                     LocationPlace place = new LocationPlace("1061", "Carrera 28a # 8 a 17", "Hogar", 2.446273, -76.626234);
+                    LocationPlace place2 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
                     LocationPlace place1 = new LocationPlace("1062", "VILLA DOCENTE, Calle 26A Norte ## 4-29, Popayán, Cauca", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place3 = new LocationPlace("1061", "Carrera 28a # 8 a 17", "Hogar", 2.446273, -76.626234);
+                    LocationPlace place4 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place5 = new LocationPlace("1061", "VILLA DOCENTE, Calle 26A Norte ## 4-29, Popayán, Cauca", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place6 = new LocationPlace("1061", "Carrera 28a # 8 a 17", "Hogar", 2.446273, -76.626234);
+                    LocationPlace place7 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place8 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place9 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place10 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+                    LocationPlace place11 = new LocationPlace("1061", "Calle 26A Norte #431", "Oficina", 2.455105, -76.589232);
+
 
                     realm.copyToRealm(place);
                     realm.copyToRealm(place1);
+                    realm.copyToRealm(place2);
+                    realm.copyToRealm(place3);
+                    realm.copyToRealm(place4);
+                    realm.copyToRealm(place5);
+                    realm.copyToRealm(place6);
+                    realm.copyToRealm(place7);
+                    realm.copyToRealm(place8);
+                    realm.copyToRealm(place9);
+                    realm.copyToRealm(place10);
+                    realm.copyToRealm(place11);
                 }
                 //endregion
 
