@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
-import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.activities.settings.SettingsDrawerActivity;
 import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.control.AppControl;

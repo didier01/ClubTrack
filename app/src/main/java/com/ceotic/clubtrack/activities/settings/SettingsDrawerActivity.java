@@ -46,7 +46,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         appControl = AppControl.getInstance();
-        appControl.currentActivity = SettingsActivity.class.getSimpleName();
+        appControl.currentActivity = SettingsDrawerActivity.class.getSimpleName();
         realm = Realm.getDefaultInstance();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,6 +57,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         //region asigno primer fragment por defecto
         FragmentManager manager = getSupportFragmentManager();

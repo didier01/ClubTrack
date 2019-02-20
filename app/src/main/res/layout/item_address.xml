@@ -43,17 +43,17 @@
             android:orientation="vertical"
             android:padding="@dimen/margin_top_edit_text">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_item_address_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="editar" />
+                android:src="@drawable/ic_edit"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_item_address_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="eliminar" />
+                android:src="@drawable/ic_trash" />
 
         </LinearLayout>
 

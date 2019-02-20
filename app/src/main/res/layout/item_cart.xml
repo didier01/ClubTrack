@@ -97,7 +97,7 @@
                         android:layout_width="32sp"
                         android:layout_height="32sp"
                         android:layout_margin="@dimen/margin_top"
-                        android:background="@drawable/trash" />
+                        android:background="@drawable/ic_trash" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_quantity_cart"

@@ -1,7 +1,5 @@
 package com.ceotic.clubtrack.activities.shop;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,24 +11,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.activities.payment.PaymentActivity;
-import com.ceotic.clubtrack.activities.settings.SettingsActivity;
 import com.ceotic.clubtrack.adapter.cart.CartAdapter;
-import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
-import com.ceotic.clubtrack.dialog.DialogBuyProduct;
 import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Order;
-import com.ceotic.clubtrack.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;

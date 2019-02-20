@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,8 +54,8 @@ public class AddressAdapter extends BaseAdapter {
         View v = View.inflate(context, R.layout.item_address, null);
         TextView tvTypeAddress = v.findViewById(R.id.tv_item_address_url);
         TextView tvAddress = v.findViewById(R.id.tv_item_address);
-        Button btnEdit = v.findViewById(R.id.btn_item_address_edit);
-        Button btnDelete = v.findViewById(R.id.btn_item_address_delete);
+        ImageButton btnEdit = v.findViewById(R.id.btn_item_address_edit);
+        ImageButton btnDelete = v.findViewById(R.id.btn_item_address_delete);
 
         final LocationPlace place = list.get(position);
 

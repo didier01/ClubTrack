@@ -19,7 +19,8 @@
         <activity
             android:name=".activities.settings.SettingsDrawerActivity"
             android:label="@string/title_activity_settings_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".activities.menu.MainActivity"
             android:label="Categorias" />
@@ -56,10 +57,6 @@
         <activity
             android:name=".activities.shop.ShopActivity"
             android:label="Productos" />
-        <activity
-            android:name=".activities.settings.SettingsActivity"
-            android:label="Ajustes"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.shop.OrderActivity"
             android:label="Pedido"

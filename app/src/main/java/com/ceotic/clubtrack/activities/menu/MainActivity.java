@@ -1,19 +1,14 @@
 package com.ceotic.clubtrack.activities.menu;
 
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 import com.ceotic.clubtrack.R;
-import com.ceotic.clubtrack.activities.settings.SettingsActivity;
-import com.ceotic.clubtrack.activities.shop.OrderActivity;
 import com.ceotic.clubtrack.adapter.menu.MenuAdapter;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.model.ProductType;
