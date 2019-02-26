@@ -13,8 +13,8 @@ public class Product extends RealmObject{
     @PrimaryKey
     private String idProduct;
 
-    private String idTypeProduct;
-
+    private String idSubCategory;
+    private String idCategory;
 
     private String nameProduct;
     private int imageProduct;
@@ -24,9 +24,10 @@ public class Product extends RealmObject{
     private String typeQuantity;
     private int points;
 
-    public Product(String idTypeProduct, String nameProduct, int imageProduct, String descriptionProduct, int price, int quantity, String typeQuantity, int points) {
+    public Product(String idSubCategory,String idCategory, String nameProduct, int imageProduct, String descriptionProduct, int price, int quantity, String typeQuantity, int points) {
         this.idProduct = UUID.randomUUID().toString();
-        this.idTypeProduct = idTypeProduct;
+        this.idSubCategory = idSubCategory;
+        this.idCategory = idCategory;
         this.nameProduct = nameProduct;
         this.imageProduct = imageProduct;
         this.descriptionProduct = descriptionProduct;
@@ -39,12 +40,20 @@ public class Product extends RealmObject{
     public Product() {
     }
 
-    public String getIdTypeProduct() {
-        return idTypeProduct;
+    public String getIdSubCategory() {
+        return idSubCategory;
     }
 
-    public void setIdTypeProduct(String idTypeProduct) {
-        this.idTypeProduct = idTypeProduct;
+    public void setIdSubCategory(String idSubCategory) {
+        this.idSubCategory = idSubCategory;
+    }
+
+    public String getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(String idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getIdProduct() {
@@ -115,13 +124,14 @@ public class Product extends RealmObject{
     public String toString() {
         return "Product{" +
                 "idProduct='" + idProduct + '\'' +
-                ", idTypeProduct='" + idTypeProduct + '\'' +
+                ", idSubCategory='" + idSubCategory + '\'' +
+                ", idCategory='" + idCategory + '\'' +
                 ", nameProduct='" + nameProduct + '\'' +
-                ", imageProduct='" + imageProduct + '\'' +
+                ", imageProduct=" + imageProduct +
                 ", descriptionProduct='" + descriptionProduct + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
-                ", typeQuantity=" + typeQuantity +
+                ", typeQuantity='" + typeQuantity + '\'' +
                 ", points=" + points +
                 '}';
     }

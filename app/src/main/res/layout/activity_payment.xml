@@ -10,36 +10,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_top_edit_text"
-            android:gravity="center_horizontal"
-            android:text="Dirección"
-            android:textSize="@dimen/text_size" />
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_top_edit_text">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/margin_top_edit_text"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_top_edit_text"
+                android:gravity="center_horizontal"
+                android:text="Dirección"
+                android:textSize="@dimen/text_size_title" />
 
             <Spinner
                 android:id="@+id/spinner_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_top_edit_text"
-                android:layout_weight="0.8"
+                android:layout_weight="0.5"
                 android:padding="@dimen/margin_top_edit_text"
-                android:textSize="@dimen/text_size"></Spinner>
+                android:textSize="@dimen/text_size_title"></Spinner>
 
             <TextView
                 android:id="@+id/tv_address_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_top_edit_text"
-                android:layout_weight="0.4"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:padding="@dimen/margin_top_edit_text"
                 android:text="Dirección"
@@ -50,20 +52,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_top_edit_text">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_top_edit_text"
-            android:layout_weight="0.5"
             android:text="Modo de pago"
+            android:padding="@dimen/margin_top_edit_text"
             android:textSize="@dimen/text_size" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -76,18 +80,21 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:src="@drawable/ic_money" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:text="Efectivo" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6" />
 
             </LinearLayout>
 
@@ -102,18 +109,21 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:src="@drawable/ic_card" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:text="Tarjeta" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6" />
 
             </LinearLayout>
 
@@ -129,36 +139,37 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:src="@drawable/ic_pse" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
                     android:text="PSE" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6" />
 
             </LinearLayout>
         </RadioGroup>
 
-
         <Button
             android:id="@+id/btn_send_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_button"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/margin_sides_button"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:layout_marginRight="@dimen/margin_sides_button"
             android:layout_marginBottom="@dimen/margin_top_edit_text"
-            android:backgroundTint="@color/colorAccent"
-            android:gravity="center_horizontal"
+            android:background="@drawable/style_button"
             android:text="Enviar pedido"
-            android:textColor="@color/colorSecondaryText" />
+            android:textSize="@dimen/text_size_body_dialog" />
 
     </LinearLayout>
 

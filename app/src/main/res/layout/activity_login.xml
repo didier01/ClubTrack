@@ -7,35 +7,37 @@
     android:orientation="vertical"
     tools:context=".activities.login.LoginActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_weight="0.7"
+                android:src="@drawable/splash" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@drawable/splashtrack" />
+                android:layout_weight="0.1"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/edt_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_left_edit_text"
-                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
                     android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
                     android:drawableLeft="@drawable/ic_profile"
                     android:gravity="center"
                     android:hint="@string/sesion_user"
@@ -43,75 +45,79 @@
                     android:maxLines="1"
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
-                    android:textSize="@dimen/text_size" />
+                    android:textSize="@dimen/text_size_title" />
 
                 <EditText
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_left_edit_text"
-                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
                     android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginRight="@dimen/margin_rigth_edit_text"
                     android:drawableLeft="@drawable/ic_password"
                     android:gravity="center"
                     android:hint="@string/sesion_user_password"
                     android:inputType="textPassword"
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
-                    android:textSize="@dimen/text_size" />
+                    android:textSize="@dimen/text_size_title" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:weightSum="1">
 
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_sides_button"
-                    android:layout_marginRight="@dimen/margin_sides_button"
-                    android:maxWidth="250dp"
-                    android:text="@string/start_sesion"
-                    android:textSize="@dimen/text_size" />
-
-                <Button
-                    android:id="@+id/btn_login_regis_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_sides_button"
-                    android:layout_marginRight="@dimen/margin_sides_button"
-                    android:layout_marginTop="10dp"
-                    android:maxWidth="250dp"
-                    android:text="@string/sesion_registry_user"
-                    android:textSize="@dimen/text_size" />
-
-                <TextView
-                    android:id="@+id/txv_lose_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_top"
-                    android:gravity="center_horizontal"
-                    android:text="@string/sesion_recover_password"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_size" />
-
-                <Button
-                    android:id="@+id/btn_lose_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_sides_button"
-                    android:layout_marginRight="@dimen/margin_sides_button"
-                    android:layout_marginTop="10dp"
-                    android:maxWidth="250dp"
-                    android:text="@string/sesion_recover_password"
-                    android:textSize="@dimen/text_size"
-                    android:visibility="gone" />
-            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginRight="@dimen/margin_sides_button"
+                android:background="@drawable/style_button"
+                android:maxWidth="250dp"
+                android:text="@string/start_sesion"
+                android:textSize="@dimen/text_size_body_dialog" />
+
+            <Button
+                android:id="@+id/btn_login_regis_user"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/margin_sides_button"
+                android:background="@drawable/style_button"
+                android:text="@string/sesion_registry_user"
+                android:textSize="@dimen/text_size_body_dialog" />
+
+
+            <Button
+                android:id="@+id/btn_lose_pass"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/margin_sides_button"
+                android:text="@string/sesion_recover_password"
+                android:textSize="@dimen/text_size_body_dialog"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txv_lose_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:gravity="center_horizontal"
+                android:text="@string/sesion_recover_password"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_title" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

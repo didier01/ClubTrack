@@ -5,16 +5,13 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ceotic.clubtrack.R;
+import com.ceotic.clubtrack.model.Category;
 import com.ceotic.clubtrack.model.Configuration;
 import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.LocationPlace;
-import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
-import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.model.SubCategory;
 import com.ceotic.clubtrack.model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -27,7 +24,7 @@ public class AppControl {
 
     public String currentActivity = "currentActivity";
     Realm realm;
-    private ProductType productType;
+    private Category productType;
     private DetailOrder detailOrder;
     private Context context;
     private boolean init = false;
@@ -58,30 +55,59 @@ public class AppControl {
             @Override
             public void execute(Realm realm) {
 
-                //region insertar tipos de prouctos
-                if (realm.where(ProductType.class).findAll().isEmpty()) {
+                //region insertar categorias
+                if (realm.where(Category.class).findAll().isEmpty()) {
 
-                    //productType = realm.createObject(ProductType.class);
-                    ProductType pdt1 = new ProductType(R.drawable.aseococina, "Aseo Cocina");
-                    ProductType pdt2 = new ProductType(R.drawable.care, "Cuidado personal");
-                    ProductType pdt3 = new ProductType(R.drawable.ropa, "Cuidado ropa");
-                    ProductType pdt4 = new ProductType(R.drawable.lineahogar, "Linea hogar");
+                    //productType = realm.createObject(Category.class);
+                    Category pdt1 = new Category(R.drawable.cheeses, "Quesos");
+                    Category pdt2 = new Category(R.drawable.derivatives, "Derivados");
+                    Category pdt3 = new Category(R.drawable.dairy, "Lacteos");
 
                     realm.copyToRealm(pdt1);
                     realm.copyToRealm(pdt2);
                     realm.copyToRealm(pdt3);
-                    realm.copyToRealm(pdt4);
                 }//endregion
+
+                //region insertar subcategorias
+                if (realm.where(SubCategory.class).findAll().isEmpty()) {
+
+                    SubCategory cat1 = new SubCategory("Quesos", "Queso parmesano");
+                    SubCategory cat2 = new SubCategory("Quesos", "Queso mozzarella");
+                    SubCategory cat3 = new SubCategory("Quesos", "Queso campesino");
+                    SubCategory cat4 = new SubCategory("Quesos", "Queso otro");
+                    SubCategory cat5 = new SubCategory("Lacteos", "Lacteos");
+                    SubCategory cat6 = new SubCategory("Derivados", "Derivados");
+
+                    realm.copyToRealm(cat1);
+                    realm.copyToRealm(cat2);
+                    realm.copyToRealm(cat3);
+                    realm.copyToRealm(cat4);
+                    realm.copyToRealm(cat5);
+                    realm.copyToRealm(cat6);
+
+                }//endregion
+
 
                 //region Insertar productos
                 if (realm.where(Product.class).findAll().isEmpty()) {
 
-                    Product prod = new Product("Aseo Cocina", "Track", R.drawable.cocina, "Jabon para platos", 6000, 400, "gr", 10);
-                    Product prod1 = new Product("Cuidado ropa", "Track 1", R.drawable.ropa, "Jabon para vasos", 5000, 600, "gr", 10);
-                    Product prod2 = new Product("Cuidado personal", "mas Track", R.drawable.care, "Jabon mas platos", 666, 400, "gr", 10);
-                    Product prod3 = new Product("Linea hogar", "Track", R.drawable.cocina, "Jabon huele rico", 9000, 900, "gr", 10);
-                    Product prod4 = new Product("Aseo Cocina", "Track", R.drawable.ropa, "Jabon huele mas rico", 6000, 400, "gr", 10);
-                    Product prod5 = new Product("Cuidado personal", "Track", R.drawable.care, "Jabon no huele", 20000, 100, "gr", 10);
+                    Product prod = new Product("Queso parmesano","Quesos", "Queso parmesano", R.drawable.cheese_parmesano, "Delicioso", 6000, 500, "gr", 10);
+                    Product prod1 = new Product("Queso mozzarella","Quesos", "Queso mozzarella", R.drawable.cheese_mozzarella, "Para acomppñar eñ desayuno", 7000, 600, "gr", 10);
+                    Product prod2 = new Product("Queso mozzarella","Quesos", "Queso mozzarella", R.drawable.cheese_mozzarella1, "Siempre fresco", 6500, 400, "gr", 10);
+                    Product prod3 = new Product("Queso campesino","Quesos", "Queso campesino", R.drawable.cheese_campesino, "del campo a tu mesa", 7000, 500, "gr", 10);
+                    Product prod4 = new Product("Queso campesino","Quesos", "Cuajada", R.drawable.cuajada_colombiana, "saludable", 6000, 400, "gr", 10);
+                    Product prod5 = new Product("Queso otro", "Quesos","Queso costeño", R.drawable.cheese_coste_o, "al mejor precio", 2000, 500, "gr", 10);
+                    Product prod6 = new Product("Queso otro","Quesos", "Queso cheddar", R.drawable.cheese_cheddar, "", 9000, 450, "gr", 10);
+                    Product prod7 = new Product("Queso otro","Quesos", "Queso edam", R.drawable.cheese_edam, "", 15000, 450, "gr", 10);
+
+                    Product milk = new Product("Lacteos","Lacteos", "Leche", R.drawable.milk, "", 2500, 1000, "ml", 10);
+                    Product yogurt = new Product("Lacteos","Lacteos", "Yogurt", R.drawable.yogurt, "", 7000, 1000, "ml", 10);
+                    Product kumis = new Product("Lacteos","Lacteos", "Kumis", R.drawable.kumis, "", 10000, 1000, "ml", 10);
+                    Product suero = new Product("Lacteos","Lacteos", "Suero de leche", R.drawable.suero_de_leche, "", 10000, 1000, "ml", 10);
+
+                    Product milkcream = new Product("Derivados","Derivados", "Crema de leche", R.drawable.milk_cream, "", 3500, 250, "gr", 10);
+                    Product lechera = new Product("Derivados","Derivados", "Leche condensada", R.drawable.condensada, "", 2500, 150, "gr", 10);
+                    Product butter = new Product("Derivados","Derivados", "Mantequilla", R.drawable.butter, "", 4500, 250, "gr", 10);
 
                     realm.copyToRealm(prod);
                     realm.copyToRealm(prod1);
@@ -89,6 +115,17 @@ public class AppControl {
                     realm.copyToRealm(prod3);
                     realm.copyToRealm(prod4);
                     realm.copyToRealm(prod5);
+                    realm.copyToRealm(prod6);
+                    realm.copyToRealm(prod7);
+
+                    realm.copyToRealm(milk);
+                    realm.copyToRealm(yogurt);
+                    realm.copyToRealm(kumis);
+                    realm.copyToRealm(suero);
+
+                    realm.copyToRealm(milkcream);
+                    realm.copyToRealm(lechera);
+                    realm.copyToRealm(butter);
                 }
 
                 //endregion
@@ -166,7 +203,7 @@ public class AppControl {
             @Override
             public void onSuccess() {
                 Log.e(TAG, "sii inserto");
-                RealmResults<ProductType> findTypes = realm.where(ProductType.class).findAll();
+                RealmResults<Category> findTypes = realm.where(Category.class).findAll();
                 Log.e(TAG, "Cantidad de tipos de productod : " + findTypes.size());
 
                 RealmResults<User> findUsers = realm.where(User.class).findAll();

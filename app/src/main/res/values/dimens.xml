@@ -3,11 +3,17 @@
 
     <dimen name="margin_top">14sp</dimen>
     <dimen name="text_size">18sp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_body_menu_adapter">13sp</dimen>
+    <dimen name="text_size_body_dialog">15sp</dimen>
     <dimen name="margin_top_edit_text">5sp</dimen>
     <dimen name="margin_left_edit_text">18sp</dimen>
     <dimen name="margin_rigth_edit_text">18sp</dimen>
     <dimen name="margin_sides_button">50sp</dimen>
     <dimen name="badge_text_size">10sp</dimen>
+
+
+    <dimen name="height_button">40dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

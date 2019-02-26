@@ -12,9 +12,10 @@ import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.menu.MainActivity;
 import com.ceotic.clubtrack.adapter.menuProduct.ProductAdapter;
 import com.ceotic.clubtrack.control.AppControl;
+import com.ceotic.clubtrack.model.Category;
 import com.ceotic.clubtrack.model.Order;
 import com.ceotic.clubtrack.model.Product;
-import com.ceotic.clubtrack.model.ProductType;
+import com.ceotic.clubtrack.model.SubCategory;
 import com.ceotic.clubtrack.util.Constants;
 import com.ceotic.clubtrack.util.MenuActionBar;
 
@@ -34,7 +35,7 @@ public class ShopActivity extends MenuActionBar {
     private Realm realm;
     private Order order;
     private AppControl appControl;
-    private ProductType type;
+    private Category type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,12 @@ public class ShopActivity extends MenuActionBar {
         name = getIntent().getStringExtra("name");
 
 
-        final ProductType type1 = realm.where(ProductType.class)
-                .equalTo("nameTypeProduct",Constants.NAME)
+        final Category type1 = realm.where(Category.class)
+                .equalTo("nameCategory",Constants.NAME)
+                .findFirst();
+
+        final SubCategory subCategory = realm.where(SubCategory.class)
+                .equalTo("idCategory",Constants.NAME)
                 .findFirst();
 
         //region Crea objeto de Orden para hacer consulta
@@ -67,7 +72,7 @@ public class ShopActivity extends MenuActionBar {
         }
         //endregion
 
-        addRecycler(type1);
+        addRecycler(subCategory);
         productAdapter.notifyDataSetChanged();
 
         getSupportActionBar().setTitle(Constants.NAME);
@@ -75,14 +80,15 @@ public class ShopActivity extends MenuActionBar {
     }
 
     //region Llenando el recycler
-    public void addRecycler(ProductType type1) {
+    public void addRecycler(SubCategory subCategory) {
         List<Product> typeList = new ArrayList<>();
 
         RealmResults<Product> findTypes = realm.where(Product.class)
-                .equalTo("idTypeProduct", type1.getNameTypeProduct())
+                .equalTo("idCategory", subCategory.getIdCategory())
                 .findAll();
 
         Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
+        Log.e(TAG, "Cantidad de tipos: " + findTypes);
         for (Product product : findTypes) {
             //typeList.add(pro);
             Log.d(TAG, "name: " + product.getNameProduct());

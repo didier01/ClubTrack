@@ -44,15 +44,10 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
     private DetailOrder detailOrder;
     private Order order, orderSave;
     private Product product;
-    private ImageView imvImageProduct;
-    private ImageView imvRemoveProduct;
-    private ImageView imvAddProduct;
-    private TextView tvNameProduct;
-    private TextView tvPriceProduct;
-    private TextView tvDetailProduct;
+    private ImageView imvImageProduct, imvRemoveProduct, imvAddProduct;
+    private TextView tvNameProduct, tvPriceProduct, tvDetailProduct, tvTypeQuantity;
     private EditText edtQuantity;
-    private Button btnCancel;
-    private Button btnOk;
+    private Button btnCancel, btnOk;
     private int quantity = 1;
     private String idproduct = "";
     private Realm realm;
@@ -81,6 +76,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         tvNameProduct = findViewById(R.id.tv_name_dialog);
         tvPriceProduct = findViewById(R.id.tv_price_dialog);
         tvDetailProduct = findViewById(R.id.tv_detail_dialog);
+        tvTypeQuantity = findViewById(R.id.tv_type_quant_dialog);
         edtQuantity = findViewById(R.id.edt_quantity_dialog);
         btnCancel = findViewById(R.id.btn_cancel_dialog);
         btnOk = findViewById(R.id.btn_ok_dialog);
@@ -129,6 +125,7 @@ public class DialogBuyProduct extends Dialog implements View.OnClickListener {
         tvNameProduct.setText(product.getNameProduct());
         tvPriceProduct.setText("$ " + product.getPrice());
         tvDetailProduct.setText(product.getDescriptionProduct());
+        tvTypeQuantity.setText(product.getQuantity()+" "+product.getTypeQuantity());
     }//endregion
 
     //region Clic de los botones

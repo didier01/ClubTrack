@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp"
     android:weightSum="1">
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_cart"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:elevation="10dp"
         android:padding="5dp"
         app:cardCornerRadius="6dp"
@@ -29,30 +28,20 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_top_edit_text"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_top_edit_text">
 
-
-                <TextView
-                    android:id="@+id/tv_cart_item_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/margin_top_edit_text"
-                    android:layout_weight="0.1"
-                    android:gravity="center_horizontal"
-                    android:textSize="@dimen/text_size" />
 
                 <ImageView
                     android:id="@+id/imv_cart_item"
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
+                    android:layout_width="120dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="@dimen/margin_top_edit_text"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:layout_weight="0.8"
-                    android:src="@android:drawable/ic_dialog_alert" />
+                    android:src="@drawable/splash" />
 
 
             </LinearLayout>
@@ -60,14 +49,33 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_top_edit_text"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_top_edit_text">
+
+                    <TextView
+                        android:id="@+id/tv_cart_item_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_horizontal"
+                        android:text="Nombre del producto"
+                        android:textSize="@dimen/text_size_body_dialog" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -75,21 +83,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/margin_top_edit_text"
                         android:layout_weight="0.5"
                         android:gravity="center_horizontal"
-                        android:textSize="@dimen/text_size" />
+                        android:text="Precio"
+                        android:textSize="@dimen/text_size_body_dialog" />
 
                     <Button
                         android:id="@+id/btn_cart_save"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
                         android:layout_margin="@dimen/margin_top"
-                        android:layout_weight="0.5"
-                        android:background="@color/colorAccent"
-                        android:text="Save"
-                        android:textColor="@color/colorSecondaryText"
+                        android:background="@drawable/ic_trash"
                         android:visibility="gone" />
 
                     <Button
@@ -99,17 +103,19 @@
                         android:layout_margin="@dimen/margin_top"
                         android:background="@drawable/ic_trash" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_quantity_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="@dimen/margin_top_edit_text">
 
                     <ImageView
                         android:id="@+id/imv_cart_remove"
-                        android:layout_width="70dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
@@ -128,7 +134,7 @@
 
                     <ImageView
                         android:id="@+id/imv_cart_add"
-                        android:layout_width="70dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"

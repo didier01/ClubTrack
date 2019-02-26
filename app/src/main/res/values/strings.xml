@@ -8,6 +8,20 @@
     <string name="title_activity_maps">Map</string>
     <string name="action_settings">Ajustes</string>
 
+    <string name="make_order">Realizar pedido</string>
+    <string name="send_order">Enviar pedido</string>
+    <string name="empty_cart">Vaciar carrito</string>
+    <string name="add_products_cart">Agregar productos</string>
+
+    <string name="name_user">Nombre</string>
+    <string name="dni_user">Cédula</string>
+    <string name="phone_user">Telefono</string>
+    <string name="cell_user">Celular</string>
+    <string name="email_user">Correo</string>
+    <string name="nickname_user">Usuario</string>
+    <string name="password_user">Contraseña</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings_drawer">SettingsDrawerActivity</string>

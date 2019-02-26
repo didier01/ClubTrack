@@ -9,18 +9,16 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="365dp"
-        android:layout_margin="@dimen/margin_top"
-        android:layout_weight="0.9">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.9"
+        android:padding="@dimen/margin_top_edit_text">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -30,10 +28,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_weight="0.1">
-
-
+        android:padding="@dimen/margin_top_edit_text">
 
         <!-- <Button
             android:id="@+id/btn_cart_menu_add_more"
@@ -50,9 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_top_edit_text"
-            android:text="Agregar mas productos"
+            android:text="@string/add_products_cart"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size_title" />
 
         <TextView
             android:id="@+id/tv_cart_menu_empty"
@@ -61,23 +59,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_top_edit_text"
-            android:text="Vaciar Carrito"
+            android:text="@string/empty_cart"
             android:textColor="#aa0000"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size_title" />
 
         <Button
             android:id="@+id/btn_cart_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_top_edit_text"
+            android:layout_height="@dimen/height_button"
             android:layout_marginLeft="@dimen/margin_sides_button"
-            android:layout_marginRight="@dimen/margin_sides_button"
             android:layout_marginTop="@dimen/margin_top_edit_text"
-            android:backgroundTint="@color/colorAccent"
-            android:gravity="center_horizontal"
-            android:text="Realizar pedido"
-            android:textColor="@color/colorSecondaryText" />
+            android:layout_marginRight="@dimen/margin_sides_button"
+            android:background="@drawable/style_button"
+            android:text="@string/make_order"
+            android:textSize="@dimen/text_size_body_dialog" />
 
     </LinearLayout>
 

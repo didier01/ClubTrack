@@ -8,129 +8,126 @@
     tools:context=".activities.registry.RegistryLocationActivity">
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Agrega tu dirección"
+                android:textSize="@dimen/text_size_title" />
 
-                <TextView
-                    android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/rg_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_top_edit_text">
+
+                <RadioButton
+                    android:id="@+id/rbtn_home"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_top_edit_text"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="Registra tu dirección"
-                    android:textSize="@dimen/text_size" />
-            </LinearLayout>
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="55sp"
+                        android:layout_height="55sp"
+                        android:src="@drawable/ic_house" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Hogar"
+                        android:textSize="@dimen/text_size_title" />
+                </LinearLayout>
+
+
+                <RadioButton
+                    android:id="@+id/rbtn_office"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_top_edit_text"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="55sp"
+                        android:layout_height="55sp"
+                        android:src="@drawable/ic_office" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Oficina"
+                        android:textSize="@dimen/text_size_title" />
+                </LinearLayout>
+
+
+                <RadioButton
+                    android:id="@+id/rbtn_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_top_edit_text"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:layout_width="55sp"
+                        android:layout_height="55sp"
+                        android:src="@drawable/ic_planet" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Otro"
+                        android:textSize="@dimen/text_size_title" />
+                </LinearLayout>
+
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_edit_text"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <RadioGroup
-                    android:id="@+id/rg_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_top_edit_text"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rbtn_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_top_edit_text"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="55sp"
-                            android:layout_height="55sp"
-                            android:src="@drawable/ic_house" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="Hogar"
-                            android:textSize="@dimen/text_size" />
-                    </LinearLayout>
-
-
-                    <RadioButton
-                        android:id="@+id/rbtn_office"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:layout_margin="@dimen/margin_top_edit_text"
-
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="55sp"
-                            android:layout_height="55sp"
-                            android:src="@drawable/ic_office" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="Oficina"
-                            android:textSize="@dimen/text_size" />
-                    </LinearLayout>
-
-
-                    <RadioButton
-                        android:id="@+id/rbtn_other"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_top_edit_text"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-
-                        <ImageView
-                            android:layout_width="55sp"
-                            android:layout_height="55sp"
-                            android:src="@drawable/ic_planet" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="Otro"
-                            android:textSize="@dimen/text_size" />
-                    </LinearLayout>
-
-                </RadioGroup>
+                android:layout_weight="0.2">
 
                 <EditText
                     android:id="@+id/edt_address"
@@ -138,56 +135,64 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_left_edit_text"
                     android:layout_marginRight="@dimen/margin_rigth_edit_text"
-                    android:hint="Direccion" />
+                    android:hint="Direccion"
+                    android:textSize="@dimen/text_size_title" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_top_edit_text">
-
-
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/regis_map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginTop="@dimen/margin_top"
-                    tools:context=".activities.registry.MapsActivity" />
-
-                <Button
-                    android:id="@+id/btn_go_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_top_edit_text"
-                    android:text="Afinar ubicación"
-                    android:textSize="@dimen/text_size" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-
-                <Button
-                    android:id="@+id/btn_save_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_top"
-                    android:text="Guardar"
-                    android:textSize="@dimen/text_size" />
-            </LinearLayout>
-
 
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/regis_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_weight="0.8"
+                tools:context=".activities.registry.MapsActivity" />
+
+            <Button
+                android:id="@+id/btn_go_location"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:layout_marginRight="@dimen/margin_sides_button"
+                android:layout_marginBottom="@dimen/margin_top_edit_text"
+                android:background="@drawable/style_button"
+                android:text="Afinar ubicación"
+                android:textSize="@dimen/text_size_body_dialog" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_top_edit_text">
+
+            <Button
+                android:id="@+id/btn_save_location"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginLeft="@dimen/margin_sides_button"
+                android:layout_marginTop="@dimen/margin_top_edit_text"
+                android:layout_marginRight="@dimen/margin_sides_button"
+                android:background="@drawable/style_button"
+                android:text="Guardar"
+                android:textSize="@dimen/text_size_body_dialog" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>

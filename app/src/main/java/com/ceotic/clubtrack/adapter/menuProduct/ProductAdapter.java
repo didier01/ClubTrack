@@ -3,28 +3,21 @@ package com.ceotic.clubtrack.adapter.menuProduct;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.dialog.DialogBuyProduct;
-import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Product;
-import com.ceotic.clubtrack.model.ProductType;
 
 import java.util.List;
-import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducViewHolder> {
 
@@ -57,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProducVi
         holder.imvProduct.setImageResource(product.getImageProduct());
         holder.txvName.setText(product.getNameProduct());
         holder.txvDescription.setText(product.getDescriptionProduct());
-        holder.txvPrice.setText("" + product.getPrice());
+        holder.txvPrice.setText("$ " + product.getPrice());
         holder.txvQuantity.setText("" + product.getQuantity());
         holder.txvTypeQuantity.setText(product.getTypeQuantity());
 
