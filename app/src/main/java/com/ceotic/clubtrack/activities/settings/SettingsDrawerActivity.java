@@ -21,6 +21,7 @@ import com.ceotic.clubtrack.R;
 import com.ceotic.clubtrack.activities.login.LoginActivity;
 import com.ceotic.clubtrack.control.AppControl;
 import com.ceotic.clubtrack.fragments.AddressesFragment;
+import com.ceotic.clubtrack.fragments.OrdersFragment;
 import com.ceotic.clubtrack.fragments.ProfileFragment;
 import com.ceotic.clubtrack.model.Configuration;
 
@@ -28,7 +29,7 @@ import io.realm.Realm;
 
 public class SettingsDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        ProfileFragment.OnFragmentInteractionListener, AddressesFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener, AddressesFragment.OnFragmentInteractionListener, OrdersFragment.OnFragmentInteractionListener{
 
     private static final String TAG = SettingsDrawerActivity.class.getSimpleName();
     private DrawerLayout drawer;
@@ -128,6 +129,7 @@ public class SettingsDrawerActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.nav_orders:
+                fragment = new OrdersFragment();
                 getSupportActionBar().setTitle("" + item.getTitle());
                 break;
             case R.id.nav_points:

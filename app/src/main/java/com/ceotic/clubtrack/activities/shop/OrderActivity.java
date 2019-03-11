@@ -24,6 +24,8 @@ import com.ceotic.clubtrack.model.DetailOrder;
 import com.ceotic.clubtrack.model.Order;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -92,7 +94,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
             Log.e(TAG, "Cantidad de tipos: " + findTypes.size());
             for (DetailOrder detailOrder : findTypes) {
-                //typeList.add(pro);
                 Log.d(TAG, "name: " + detailOrder.getIdProduct());
                 typeList.addAll(findTypes);
 
@@ -150,13 +151,52 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.btn_cart_order:
-                Intent goPayment= new Intent(OrderActivity.this, PaymentActivity.class);
+                Intent goPayment = new Intent(OrderActivity.this, PaymentActivity.class);
                 startActivity(goPayment);
                 break;
         }
 
     }
     ///endregion
+
+    //region Actualizar cantidad
+    public void updateOrder() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                Order order1 = realm.copyFromRealm(realm.where(Order.class)
+                        .equalTo("status", Order.CREATED)
+                        .equalTo("idUser", appControl.currentUser.getIdUser())
+                        .findFirst());
+
+                if (order1 != null) {
+                    order1.setPrice(total);
+                    realm.copyToRealmOrUpdate(order1);
+                }
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                RealmResults<Order> findOrder = realm.where(Order.class)
+                        .equalTo("idUser", appControl.currentUser.getDniUser())
+                        .equalTo("status", Order.SENDED)
+                        .findAll();
+                Log.e(TAG, "Item actualizado " + findOrder.size());
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.e(TAG, "Item no actualizado ");
+                error.printStackTrace();
+            }
+        });
+
+    }//endregion
 
     //region Vaciar lista de productos
     public void deleteAll() {

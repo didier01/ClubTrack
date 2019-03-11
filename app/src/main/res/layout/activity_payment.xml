@@ -26,13 +26,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_top_edit_text"
                 android:gravity="center_horizontal"
-                android:text="Dirección"
+                android:text="Dirección de entrega"
                 android:textSize="@dimen/text_size_title" />
 
             <Spinner
                 android:id="@+id/spinner_payment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:padding="@dimen/margin_top_edit_text"
                 android:textSize="@dimen/text_size_title"></Spinner>
@@ -45,6 +45,7 @@
                 android:gravity="center_horizontal"
                 android:padding="@dimen/margin_top_edit_text"
                 android:text="Dirección"
+                android:visibility="gone"
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
     </LinearLayout>
@@ -60,11 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Modo de pago"
             android:padding="@dimen/margin_top_edit_text"
+            android:text="Modo de pago"
             android:textSize="@dimen/text_size" />
 
         <RadioGroup
+            android:id="@+id/rg_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -89,9 +91,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
-                    android:text="Efectivo" />
+                    android:text="Efectivo"
+                    android:textSize="@dimen/text_size_title" />
 
                 <RadioButton
+                    android:id="@+id/rbtn_cash_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6" />
@@ -118,9 +122,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
-                    android:text="Tarjeta" />
+                    android:text="Tarjeta"
+                    android:textSize="@dimen/text_size_title" />
 
                 <RadioButton
+                    android:id="@+id/rbtn_card_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6" />
@@ -148,9 +154,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:padding="@dimen/margin_top_edit_text"
-                    android:text="PSE" />
+                    android:text="PSE"
+                    android:textSize="@dimen/text_size_title" />
 
                 <RadioButton
+                    android:id="@+id/rbtn_pse_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6" />

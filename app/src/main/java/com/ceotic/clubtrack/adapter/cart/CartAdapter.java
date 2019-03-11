@@ -149,36 +149,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
         //endregion
 
-        //region Actualiza Cantidad del producto
-        /*
-        holder.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                realm.executeTransactionAsync(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-
-                        detailOrder1.setQuantity(Integer.parseInt(holder.edtQuantity.getText().toString()));
-                        realm.copyToRealmOrUpdate(detailOrder1);
-                    }
-                }, new Realm.Transaction.OnSuccess() {
-                    @Override
-                    public void onSuccess() {
-
-                        Toast.makeText(context, "Cantidad actualizada", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Realm.Transaction.OnError() {
-                    @Override
-                    public void onError(Throwable error) {
-                        Toast.makeText(context, "No Actualizo", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onError: ");
-                        error.printStackTrace();
-                    }
-                });
-            }
-        });*/ //endregion
-
         //region Borrar Producto de la lista
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
 

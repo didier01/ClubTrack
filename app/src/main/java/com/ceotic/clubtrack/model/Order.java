@@ -1,5 +1,6 @@
 package com.ceotic.clubtrack.model;
 
+import java.util.Date;
 import java.util.UUID;
 
 import io.realm.RealmObject;
@@ -24,17 +25,21 @@ public class Order extends RealmObject {
     @PrimaryKey
     private String idCart;
 
-    private String date;
+    private Date date;
     private String paymentMethod;
     private String idUser;
     private int status;
+    private int price;
+    private String address;
 
-    public Order(String date, String paymentMethod, String idUser, int status) {
+    public Order(Date date, String paymentMethod, String idUser, int status, String address, int price) {
         this.idCart = UUID.randomUUID().toString();
         this.date = date;
         this.paymentMethod = paymentMethod;
         this.idUser = idUser;
         this.status = status;
+        this.address = address;
+        this.price = price;
     }
 
     public Order() {
@@ -48,11 +53,11 @@ public class Order extends RealmObject {
         this.idCart = idCart;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -80,14 +85,32 @@ public class Order extends RealmObject {
         this.status = status;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "idCart='" + idCart + '\'' +
-                ", date='" + date + '\'' +
+                ", date=" + date +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", idUser='" + idUser + '\'' +
                 ", status=" + status +
+                ", price=" + price +
+                ", address='" + address + '\'' +
                 '}';
     }
 }
